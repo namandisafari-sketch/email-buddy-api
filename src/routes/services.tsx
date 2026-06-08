@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/SiteLayout";
 import { Eyebrow } from "@/components/ui/primitives";
-import { BRAND, SERVICES } from "@/lib/site-data";
+import { BRAND, SERVICES, LICENSE_TERMS, PAYMENT_METHODS } from "@/lib/site-data";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
