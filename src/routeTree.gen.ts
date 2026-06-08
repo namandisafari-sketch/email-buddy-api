@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as WhoWeAreRouteImport } from './routes/who-we-are'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ProcessRouteImport } from './routes/process'
+import { Route as PolicyRouteImport } from './routes/policy'
 import { Route as IndexRouteImport } from './routes/index'
 
 const WhoWeAreRoute = WhoWeAreRouteImport.update({
@@ -29,6 +30,11 @@ const ProcessRoute = ProcessRouteImport.update({
   path: '/process',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PolicyRoute = PolicyRouteImport.update({
+  id: '/policy',
+  path: '/policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -37,12 +43,14 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/policy': typeof PolicyRoute
   '/process': typeof ProcessRoute
   '/services': typeof ServicesRoute
   '/who-we-are': typeof WhoWeAreRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/policy': typeof PolicyRoute
   '/process': typeof ProcessRoute
   '/services': typeof ServicesRoute
   '/who-we-are': typeof WhoWeAreRoute
@@ -50,20 +58,22 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/policy': typeof PolicyRoute
   '/process': typeof ProcessRoute
   '/services': typeof ServicesRoute
   '/who-we-are': typeof WhoWeAreRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/process' | '/services' | '/who-we-are'
+  fullPaths: '/' | '/policy' | '/process' | '/services' | '/who-we-are'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/process' | '/services' | '/who-we-are'
-  id: '__root__' | '/' | '/process' | '/services' | '/who-we-are'
+  to: '/' | '/policy' | '/process' | '/services' | '/who-we-are'
+  id: '__root__' | '/' | '/policy' | '/process' | '/services' | '/who-we-are'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  PolicyRoute: typeof PolicyRoute
   ProcessRoute: typeof ProcessRoute
   ServicesRoute: typeof ServicesRoute
   WhoWeAreRoute: typeof WhoWeAreRoute
@@ -92,6 +102,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProcessRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/policy': {
+      id: '/policy'
+      path: '/policy'
+      fullPath: '/policy'
+      preLoaderRoute: typeof PolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -104,6 +121,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  PolicyRoute: PolicyRoute,
   ProcessRoute: ProcessRoute,
   ServicesRoute: ServicesRoute,
   WhoWeAreRoute: WhoWeAreRoute,
