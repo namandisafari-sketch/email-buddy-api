@@ -31,6 +31,7 @@ export const NAV = [
   { to: "/services", label: "Services" },
   { to: "/process", label: "Process" },
   { to: "/docs", label: "API Docs" },
+  { to: "/license", label: "License" },
   { to: "/who-we-are", label: "Who we are" },
   { to: "/policy", label: "Policy & Law" },
   { to: "/track-order", label: "Track order" },
