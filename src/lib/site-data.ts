@@ -4,8 +4,28 @@ export const BRAND = {
   product: "Email SMTP & Automation",
   apiBase: "https://api.selfugaapi.ug/v1",
   email: "api@selfugaapi.ug",
-  price: "USh 30,000",
+  legalName: "SelfUga Api Ltd",
+  price: "USh 500,000",
 };
+
+export const LICENSE_TERMS = [
+  "Lifetime valid license — pay once, own it forever",
+  "Full ownership of your issued API & Server Authority token",
+  "No reselling — the license is bound to your verified organisation",
+  "Production of unlimited domain-based professional email addresses",
+  "Receipt issued instantly on payment",
+];
+
+export const PAYMENT_METHODS = [
+  {
+    title: "Pay any bank to SelfUga Api Ltd",
+    body: "Walk into any bank and state you are paying SelfUga Api Ltd. Settlement is confirmed against your order reference.",
+  },
+  {
+    title: "Pay from your desk",
+    body: "Pay online directly to the engineer and guide integrator from your desk, and receive your receipt instantly.",
+  },
+];
 
 export const NAV = [
   { to: "/services", label: "Services" },
