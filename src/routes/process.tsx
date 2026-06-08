@@ -20,23 +20,23 @@ export const Route = createFileRoute("/process")({
 const STEPS = [
   {
     n: "01",
-    title: "Submit serious information",
-    body: "Full legal name, organization registration, intended use. Insufficient detail is rejected.",
+    title: "Register & submit serious information",
+    body: "You must be a registered organisation. Provide your legal name, registration and intended use. False information ends the service with no refund.",
   },
   {
     n: "02",
-    title: "Settle through Pesapal",
-    body: "UGX checkout via Mobile Money, Visa, or Mastercard. Pesapal confirms settlement to SelfUgaApi.",
+    title: "Pay any bank to SelfUga Api Ltd",
+    body: "Pay through any bank — just say you are paying SelfUga Api Ltd — or pay from your desk to the engineer and guide integrator, and receive your receipt instantly.",
   },
   {
     n: "03",
-    title: "Review (up to 2 days for schools)",
-    body: "Our compliance desk verifies institutional details before issuing the lifetime token.",
+    title: "Compliance review",
+    body: "Our desk verifies your organisation details before issuing the lifetime license and Server Authority token.",
   },
   {
     n: "04",
     title: "Receive your API & token",
-    body: "Delivered by encrypted email along with the signed lifetime license certificate.",
+    body: "Delivered by encrypted email with full ownership, unlimited domain-based professional email, and your signed lifetime license certificate.",
   },
 ];
 
