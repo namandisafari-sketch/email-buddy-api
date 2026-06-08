@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WhoWeAreRouteImport } from './routes/who-we-are'
 import { Route as TrackOrderRouteImport } from './routes/track-order'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ProcessRouteImport } from './routes/process'
 import { Route as PolicyRouteImport } from './routes/policy'
@@ -25,6 +26,11 @@ const WhoWeAreRoute = WhoWeAreRouteImport.update({
 const TrackOrderRoute = TrackOrderRouteImport.update({
   id: '/track-order',
   path: '/track-order',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ServicesRoute = ServicesRouteImport.update({
@@ -59,6 +65,7 @@ export interface FileRoutesByFullPath {
   '/policy': typeof PolicyRoute
   '/process': typeof ProcessRoute
   '/services': typeof ServicesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/track-order': typeof TrackOrderRoute
   '/who-we-are': typeof WhoWeAreRoute
 }
@@ -68,6 +75,7 @@ export interface FileRoutesByTo {
   '/policy': typeof PolicyRoute
   '/process': typeof ProcessRoute
   '/services': typeof ServicesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/track-order': typeof TrackOrderRoute
   '/who-we-are': typeof WhoWeAreRoute
 }
@@ -78,6 +86,7 @@ export interface FileRoutesById {
   '/policy': typeof PolicyRoute
   '/process': typeof ProcessRoute
   '/services': typeof ServicesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/track-order': typeof TrackOrderRoute
   '/who-we-are': typeof WhoWeAreRoute
 }
@@ -89,6 +98,7 @@ export interface FileRouteTypes {
     | '/policy'
     | '/process'
     | '/services'
+    | '/sitemap.xml'
     | '/track-order'
     | '/who-we-are'
   fileRoutesByTo: FileRoutesByTo
@@ -98,6 +108,7 @@ export interface FileRouteTypes {
     | '/policy'
     | '/process'
     | '/services'
+    | '/sitemap.xml'
     | '/track-order'
     | '/who-we-are'
   id:
@@ -107,6 +118,7 @@ export interface FileRouteTypes {
     | '/policy'
     | '/process'
     | '/services'
+    | '/sitemap.xml'
     | '/track-order'
     | '/who-we-are'
   fileRoutesById: FileRoutesById
@@ -117,6 +129,7 @@ export interface RootRouteChildren {
   PolicyRoute: typeof PolicyRoute
   ProcessRoute: typeof ProcessRoute
   ServicesRoute: typeof ServicesRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TrackOrderRoute: typeof TrackOrderRoute
   WhoWeAreRoute: typeof WhoWeAreRoute
 }
@@ -135,6 +148,13 @@ declare module '@tanstack/react-router' {
       path: '/track-order'
       fullPath: '/track-order'
       preLoaderRoute: typeof TrackOrderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/services': {
@@ -181,9 +201,20 @@ const rootRouteChildren: RootRouteChildren = {
   PolicyRoute: PolicyRoute,
   ProcessRoute: ProcessRoute,
   ServicesRoute: ServicesRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   TrackOrderRoute: TrackOrderRoute,
   WhoWeAreRoute: WhoWeAreRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
