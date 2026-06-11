@@ -258,6 +258,49 @@ function DocsPage() {
             </section>
           ))}
 
+          <section id="whatsapp" className="scroll-mt-24">
+            <h2 className="font-serif text-2xl font-semibold">NLSCEVO — WhatsApp API (Evolution)</h2>
+            <p className="mt-3 text-muted-foreground">
+              Beyond email, NLSC ships <strong>NLSCEVO</strong> — a full WhatsApp API built on the Evolution
+              engine. Send and receive WhatsApp messages, media, groups and status directly from your own
+              number, fully eliminating third-party providers like Twilio. Authenticate with a{" "}
+              <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-sm">Bearer</code> token, exactly
+              like the rest of the API.
+            </p>
+            <div className="mt-4">
+              <CodeBlock>{`curl -X POST "https://evo.nlscug.com/message/sendText/sales-team" \\
+  -H "Authorization: Bearer <copied token>" \\
+  -d '{"number":"256700000000","text":"Hello from NLSCEVO"}'`}</CodeBlock>
+            </div>
+
+            <h3 className="mt-8 font-serif text-lg font-semibold">NLSCEVO vs Twilio &amp; other providers</h3>
+            <div className="mt-4 overflow-x-auto rounded-lg border border-border">
+              <table className="w-full border-collapse text-sm">
+                <thead>
+                  <tr className="border-b border-border bg-secondary/50 text-left">
+                    <th className="px-4 py-3 font-semibold">Feature</th>
+                    <th className="px-4 py-3 font-semibold text-primary">NLSCEVO</th>
+                    <th className="px-4 py-3 font-semibold text-muted-foreground">Twilio &amp; others</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {EVO_COMPARISON.map((r) => (
+                    <tr key={r.feature} className="border-b border-border last:border-0">
+                      <td className="px-4 py-3 font-medium">{r.feature}</td>
+                      <td className="px-4 py-3 text-foreground">{r.evo}</td>
+                      <td className="px-4 py-3 text-muted-foreground">{r.twilio}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <Link to="/nlscevo" className="mt-4 inline-block text-sm font-medium text-primary hover:underline">
+              Read the full NLSCEVO API reference →
+            </Link>
+          </section>
+
+
+
           <div className="rounded-xl border border-border bg-secondary/50 p-6">
             <p className="text-sm text-muted-foreground">
               {BRAND.price} per API · Server Authority Token issued in 2 working days.
