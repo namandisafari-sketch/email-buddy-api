@@ -98,11 +98,10 @@ function Footer() {
       <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <div className="flex items-center gap-2.5">
-            <span className="flex h-8 w-8 items-center justify-center rounded-md bg-primary font-serif text-lg font-bold text-primary-foreground">
-              S
-            </span>
+            <NlscLogo className="h-8 w-8 rounded-md" />
             <span className="font-serif text-lg font-semibold">{BRAND.name}</span>
           </div>
+
           <p className="mt-3 max-w-xs text-sm text-muted-foreground">
             Sovereign Email SMTP & automation APIs, signed in Kampala and settled across East Africa.
           </p>
