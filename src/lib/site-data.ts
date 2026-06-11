@@ -12,6 +12,13 @@ export const BRAND = {
   price: "USh 500,000",
   evoPrice: "USh 760,000",
   evoApiBase: "https://evo.nlscug.com",
+  bundlePrice: "USh 1,160,000",
+};
+
+export const CONTACT = {
+  phone: "0326 338 014",
+  address: "1st Floor Lunna Plaza, 25, Entebbe Road, Kampala, Uganda",
+  poBox: "P.O Box: 6089",
 };
 
 export const CERTIFICATION = {
