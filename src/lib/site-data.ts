@@ -10,7 +10,43 @@ export const BRAND = {
   email: "api@nlscug.com",
   legalName: "Nile Logic & Secure Cloud Ltd",
   price: "USh 500,000",
+  evoPrice: "USh 760,000",
+  evoApiBase: "https://evo.nlscug.com",
 };
+
+export const CERTIFICATION = {
+  authority: "National Information Technology Authority – Uganda (NITA-U)",
+  level: "Conformity Certificate Level 3",
+  regulation: "NITA-U IT Certification Regulations of 2016",
+  holder: "NLSC LTD",
+  reference: "NITA/CCR/2023-332",
+  validFrom: "21st February 2025",
+  validTill: "21st February 2026",
+  scope: [
+    "Retail (4741)",
+    "Computer programming, consultancy and related activities (6201, 6202, 6209)",
+    "Information Services (6311, 6312)",
+  ],
+};
+
+export const EVO_LICENSE = [
+  "Lifetime valid license — pay once, own NLSCEVO forever",
+  "Full WhatsApp services — fully eliminates third-party providers like Twilio",
+  "Full-time support & help, included for the life of your license",
+  "New updates eligibility — every future NLSCEVO release at no extra cost",
+  "Unlimited domain-based instances bound to your verified organisation",
+];
+
+export const EVO_COMPARISON = [
+  { feature: "Pricing model", evo: "One-time USh 760,000 lifetime license", twilio: "Per-message + per-number monthly fees" },
+  { feature: "WhatsApp sending & receiving", evo: "Full inbound & outbound, native", twilio: "Outbound + inbound via approved templates" },
+  { feature: "Number ownership", evo: "Your own number, no reseller lock-in", twilio: "Number leased from provider" },
+  { feature: "Message templates approval", evo: "No third-party gatekeeping", twilio: "Meta + Twilio template review" },
+  { feature: "Media, groups & status", evo: "Images, audio, docs, groups, status", twilio: "Limited group / status support" },
+  { feature: "Support", evo: "Full-time lifetime support included", twilio: "Paid support tiers" },
+  { feature: "Updates", evo: "Lifetime free updates", twilio: "Subject to API version changes" },
+  { feature: "Data sovereignty", evo: "Signed & settled in Uganda (UGX)", twilio: "Foreign billing & data residency" },
+];
 
 export const LICENSE_TERMS = [
   "Lifetime valid license — pay once, own it forever",
