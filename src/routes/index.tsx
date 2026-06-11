@@ -2,7 +2,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/SiteLayout";
 import { Eyebrow } from "@/components/ui/primitives";
 import { BRAND, SERVICES, TIMELINE } from "@/lib/site-data";
-import heroImg from "@/assets/hero-kampala.jpg";
+import heroAsset from "@/assets/datacenter-hero.png.asset.json";
+
+const heroImg = heroAsset.url;
 
 export const Route = createFileRoute("/")({
   head: () => ({
