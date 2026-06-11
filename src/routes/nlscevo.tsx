@@ -404,6 +404,17 @@ function NlscEvoPage() {
             </p>
           </section>
 
+          <section id="try-it" className="scroll-mt-24">
+            <h2 className="font-serif text-2xl font-semibold">Try It console</h2>
+            <p className="mt-3 text-muted-foreground">
+              Test authentication, send a message and verify a webhook — interactively, without leaving the
+              docs.
+            </p>
+            <div className="mt-5">
+              <TryItConsole />
+            </div>
+          </section>
+
           <section id="comparison" className="scroll-mt-24">
             <h2 className="font-serif text-2xl font-semibold">NLSCEVO vs Twilio</h2>
             <p className="mt-3 text-muted-foreground">
