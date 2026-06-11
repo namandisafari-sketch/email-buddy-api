@@ -79,7 +79,158 @@ function EndpointRow({ e }: { e: Endpoint }) {
   );
 }
 
-function NlscEvoPage() {
+type TabKey = "auth" | "send" | "webhook";
+
+function TryItConsole() {
+  const [tab, setTab] = useState<TabKey>("auth");
+  const [token, setToken] = useState("");
+  const [instance, setInstance] = useState("sales-team");
+  const [number, setNumber] = useState("256700000000");
+  const [text, setText] = useState("Hello from NLSCEVO 👋");
+  const [hookUrl, setHookUrl] = useState("https://app.yourdomain.ug/whatsapp/hook");
+  const [response, setResponse] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  function run() {
+    setLoading(true);
+    setResponse(null);
+    // Sandbox simulation — validates the request shape without sending live traffic.
+    setTimeout(() => {
+      let body: unknown;
+      if (!token) {
+        body = { status: 401, error: "Unauthorized", message: "Invalid or missing Bearer token" };
+      } else if (tab === "auth") {
+        body = {
+          status: 200,
+          instances: [{ instanceName: instance, state: "open", owner: "256•••••••00" }],
+        };
+      } else if (tab === "send") {
+        body = {
+          status: 201,
+          key: { remoteJid: `${number}@s.whatsapp.net`, id: "3EB0" + Date.now().toString(16).toUpperCase() },
+          message: { text },
+          messageTimestamp: Math.floor(Date.now() / 1000),
+          instance,
+        };
+      } else {
+        body = {
+          status: 200,
+          webhook: { url: hookUrl, enabled: true, events: ["messages.upsert", "connection.update"] },
+          instance,
+        };
+      }
+      setResponse(JSON.stringify(body, null, 2));
+      setLoading(false);
+    }, 600);
+  }
+
+  const curl =
+    tab === "auth"
+      ? `curl ${BRAND.evoApiBase}/instance/fetchInstances \\
+  -H "Authorization: Bearer ${token || "<token>"}"`
+      : tab === "send"
+        ? `curl -X POST "${BRAND.evoApiBase}/message/sendText/${instance}" \\
+  -H "Authorization: Bearer ${token || "<token>"}" \\
+  -H "Content-Type: application/json" \\
+  -d '{ "number": "${number}", "text": "${text}" }'`
+        : `curl -X POST "${BRAND.evoApiBase}/webhook/set/${instance}" \\
+  -H "Authorization: Bearer ${token || "<token>"}" \\
+  -d '{ "url": "${hookUrl}", "events": ["messages.upsert","connection.update"] }'`;
+
+  const tabs: { key: TabKey; label: string }[] = [
+    { key: "auth", label: "Test auth" },
+    { key: "send", label: "Send message" },
+    { key: "webhook", label: "Verify webhook" },
+  ];
+
+  return (
+    <div className="rounded-xl border border-border bg-card p-5">
+      <div className="flex flex-wrap gap-2">
+        {tabs.map((t) => (
+          <button
+            key={t.key}
+            onClick={() => {
+              setTab(t.key);
+              setResponse(null);
+            }}
+            className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
+              tab === t.key ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            {t.label}
+          </button>
+        ))}
+      </div>
+
+      <div className="mt-4 space-y-3">
+        <Field label="Bearer token" value={token} onChange={setToken} placeholder="paste your NLSCEVO token" />
+        {tab !== "auth" && (
+          <Field label="Instance" value={instance} onChange={setInstance} placeholder="sales-team" />
+        )}
+        {tab === "send" && (
+          <>
+            <Field label="Recipient number" value={number} onChange={setNumber} placeholder="2567..." />
+            <Field label="Message text" value={text} onChange={setText} placeholder="Your message" />
+          </>
+        )}
+        {tab === "webhook" && (
+          <Field label="Webhook URL" value={hookUrl} onChange={setHookUrl} placeholder="https://..." />
+        )}
+      </div>
+
+      <button
+        onClick={run}
+        disabled={loading}
+        className="mt-4 rounded-md bg-ink px-5 py-2.5 text-sm font-medium text-ink-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
+      >
+        {loading ? "Running…" : "Send request"}
+      </button>
+
+      <p className="mt-4 text-xs font-medium text-muted-foreground">Request</p>
+      <div className="mt-1">
+        <CodeBlock>{curl}</CodeBlock>
+      </div>
+
+      {response && (
+        <>
+          <p className="mt-4 text-xs font-medium text-muted-foreground">Response (sandbox)</p>
+          <div className="mt-1">
+            <CodeBlock>{response}</CodeBlock>
+          </div>
+        </>
+      )}
+      <p className="mt-3 text-xs text-muted-foreground">
+        This console runs in a safe sandbox — it validates your request shape and shows the response NLSCEVO
+        returns, without sending live WhatsApp traffic.
+      </p>
+    </div>
+  );
+}
+
+function Field({
+  label,
+  value,
+  onChange,
+  placeholder,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  placeholder?: string;
+}) {
+  return (
+    <label className="block">
+      <span className="text-xs font-medium text-muted-foreground">{label}</span>
+      <input
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        className="mt-1 w-full rounded-md border border-border bg-background px-3 py-2 font-mono text-sm outline-none focus:border-primary"
+      />
+    </label>
+  );
+}
+
   return (
     <SiteLayout>
       <section className="border-b border-border">
