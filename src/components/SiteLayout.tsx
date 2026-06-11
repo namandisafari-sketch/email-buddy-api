@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { BRAND, NAV } from "@/lib/site-data";
+import { NlscLogo } from "@/components/NlscLogo";
 
 function NoticeBanner() {
   const [open, setOpen] = useState(true);
