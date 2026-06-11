@@ -135,8 +135,18 @@ function Footer() {
                 {BRAND.email}
               </a>
             </li>
-            <li>Kampala, Republic of Uganda</li>
+            <li>
+              <a href={`tel:${CONTACT.phone.replace(/\s/g, "")}`} className="hover:text-foreground">
+                {CONTACT.phone}
+              </a>
+            </li>
+            <li>{CONTACT.address}</li>
+            <li>{CONTACT.poBox}</li>
           </ul>
+          <p className="mt-3 max-w-xs text-xs text-muted-foreground">
+            This is the only number that calls you to verify an activation. Never share your secure NLSCEVO
+            token or credentials with anyone.
+          </p>
         </div>
       </div>
       <div className="border-t border-border">
