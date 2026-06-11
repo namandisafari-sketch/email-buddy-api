@@ -60,10 +60,10 @@
   --border: oklch(0.9 0.008 160);
   --input: oklch(0.9 0.008 160);
   --ring: oklch(0.62 0.07 162);
-  --code: oklch(0.18 0.01 70);
-  --code-foreground: oklch(0.92 0.01 90);
-  --ink: oklch(0.18 0.01 70);
-  --ink-foreground: oklch(0.97 0.006 90);
+  --code: oklch(0.13 0.006 160);
+  --code-foreground: oklch(0.92 0.01 160);
+  --ink: oklch(0.13 0.006 160);
+  --ink-foreground: oklch(0.97 0.006 160);
 }
 
 .dark {
