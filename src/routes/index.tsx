@@ -7,13 +7,13 @@ import heroImg from "@/assets/hero-kampala.jpg";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "SelfUgaApi — Lifetime Email SMTP & Automation API" },
+      { title: "NLSC — Lifetime Email SMTP & Automation API" },
       {
         name: "description",
         content:
-          "SelfUgaApi issues lifetime licenses for sovereign Email SMTP and automation APIs. No expiry. No subscription. Settled via Pesapal East Africa.",
+          "NLSC issues lifetime licenses for sovereign Email SMTP and automation APIs. No expiry. No subscription. Settled via Pesapal East Africa.",
       },
-      { property: "og:title", content: "SelfUgaApi — Email SMTP & Automation API" },
+      { property: "og:title", content: "NLSC — Email SMTP & Automation API" },
       { property: "og:image", content: heroImg },
     ],
   }),
@@ -40,7 +40,7 @@ function Index() {
               <span className="text-primary">Kampala</span>, settled across East Africa.
             </h1>
             <p className="mt-6 max-w-2xl text-lg text-ink-foreground/80">
-              SelfUgaApi issues lifetime licenses for the full {BRAND.product} API and Server Authority
+              NLSC issues lifetime licenses for the full {BRAND.product} API and Server Authority
               tokens. No expiry. No subscription. Backed by court-enforceable terms and verified through
               Pesapal East Africa.
             </p>
@@ -140,7 +140,7 @@ function Index() {
           </h2>
           <p className="mt-5 max-w-3xl text-ink-foreground/80">
             Every license is issued in your verified legal name. Reselling, forging, or misrepresenting a
-            SelfUgaApi license is a breach of contract and a violation of the Computer Misuse Act of Uganda.
+            NLSC license is a breach of contract and a violation of the Computer Misuse Act of Uganda.
           </p>
           <p className="mt-4 max-w-3xl text-ink-foreground/80">
             Confirmed violators are reported to NITA-U and pursued through the courts of the Republic of
@@ -154,7 +154,7 @@ function Index() {
 
       {/* Timeline */}
       <section className="mx-auto max-w-7xl px-4 py-20">
-        <Eyebrow>From the desk · 17 years of SelfUgaApi</Eyebrow>
+        <Eyebrow>From the desk · 17 years of NLSC</Eyebrow>
         <div className="mt-8 grid gap-px overflow-hidden rounded-xl border border-border bg-border md:grid-cols-2">
           {TIMELINE.map((t) => (
             <div key={t.title} className="bg-card p-6">

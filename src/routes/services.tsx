@@ -6,13 +6,13 @@ import { BRAND, SERVICES, LICENSE_TERMS, PAYMENT_METHODS } from "@/lib/site-data
 export const Route = createFileRoute("/services")({
   head: () => ({
     meta: [
-      { title: "Lifetime Licenses — SelfUgaApi Email SMTP & Automation" },
+      { title: "Lifetime Licenses — NLSC Email SMTP & Automation" },
       {
         name: "description",
         content:
-          "Browse SelfUgaApi lifetime licenses: transactional SMTP relay, bulk campaigns, automation flows, inbound parse and Server Authority tokens.",
+          "Browse NLSC lifetime licenses: transactional SMTP relay, bulk campaigns, automation flows, inbound parse and Server Authority tokens.",
       },
-      { property: "og:title", content: "Lifetime Licenses — SelfUgaApi" },
+      { property: "og:title", content: "Lifetime Licenses — NLSC" },
     ],
   }),
   component: ServicesPage,

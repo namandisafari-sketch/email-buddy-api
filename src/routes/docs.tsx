@@ -6,13 +6,13 @@ import { BRAND } from "@/lib/site-data";
 export const Route = createFileRoute("/docs")({
   head: () => ({
     meta: [
-      { title: "API Documentation — SelfUgaApi Email SMTP & Automation" },
+      { title: "API Documentation — NLSC Email SMTP & Automation" },
       {
         name: "description",
         content:
-          "REST over HTTPS. JSON in, JSON out. SelfUgaApi Email SMTP and automation API reference: send, campaigns, automation flows, inbound parse and auth tokens.",
+          "REST over HTTPS. JSON in, JSON out. NLSC Email SMTP and automation API reference: send, campaigns, automation flows, inbound parse and auth tokens.",
       },
-      { property: "og:title", content: "API Documentation — SelfUgaApi" },
+      { property: "og:title", content: "API Documentation — NLSC" },
     ],
   }),
   component: DocsPage,
@@ -47,8 +47,8 @@ const SECTIONS: DocSection[] = [
     intro:
       "Authenticated SMTP over TLS for transactional mail. Connect any mail client or framework to the relay host using credentials minted from your Server Authority Token.",
     endpoints: [
-      { method: "HOST", path: "smtp.selfugaapi.ug:587", desc: "STARTTLS submission endpoint" },
-      { method: "HOST", path: "smtp.selfugaapi.ug:465", desc: "Implicit TLS submission endpoint" },
+      { method: "HOST", path: "smtp.nlscug.com:587", desc: "STARTTLS submission endpoint" },
+      { method: "HOST", path: "smtp.nlscug.com:465", desc: "Implicit TLS submission endpoint" },
       { method: "POST", path: "/v1/smtp/credentials", desc: "Mint scoped SMTP username & password" },
     ],
     curl: `curl -X POST "${BRAND.apiBase}/smtp/credentials" \\
@@ -123,7 +123,7 @@ const SECTIONS: DocSection[] = [
     id: "auth-token",
     title: "Server Authority Token — Lifetime",
     intro:
-      "A sovereign ED25519 keypair bound to your verified legal identity. Used to sign JWTs that every SelfUgaApi service trusts without further negotiation.",
+      "A sovereign ED25519 keypair bound to your verified legal identity. Used to sign JWTs that every NLSC service trusts without further negotiation.",
     endpoints: [
       { method: "POST", path: "/v1/auth/token", desc: "Exchange a signed assertion for a short-lived bearer JWT" },
       { method: "GET", path: "/v1/auth/jwks", desc: "Public JWKS for downstream services" },

@@ -11,9 +11,9 @@ function NoticeBanner() {
         <span className="mt-0.5 text-primary font-semibold">!</span>
         <p className="flex-1 leading-relaxed">
           <strong>Notice:</strong> Due to our open long-term partnership and ongoing advertising-litigation
-          matters, the public website at <code className="font-mono">selfugaapi.ug</code> has been{" "}
+          matters, the public website at <code className="font-mono">nlscug.com</code> has been{" "}
           <strong>discontinued for front-end visitors</strong>. It remains fully operational for licensed{" "}
-          <code className="font-mono">api.selfugaapi.ug</code> machine-to-machine connections. Please continue
+          <code className="font-mono">api.nlscug.com</code> machine-to-machine connections. Please continue
           browsing here.
         </p>
         <button

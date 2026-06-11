@@ -77,10 +77,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "SelfUgaApi — Email SMTP & Automation API" },
+      { title: "NLSC — Email SMTP & Automation API" },
       { name: "description", content: "Lifetime licenses for sovereign Email SMTP and automation APIs, signed in Kampala and settled across East Africa via Pesapal." },
-      { name: "author", content: "SelfUgaApi" },
-      { property: "og:title", content: "SelfUgaApi — Email SMTP & Automation API" },
+      { name: "author", content: "NLSC" },
+      { property: "og:title", content: "NLSC — Email SMTP & Automation API" },
       { property: "og:description", content: "Lifetime Email SMTP and automation APIs, signed in Kampala." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
