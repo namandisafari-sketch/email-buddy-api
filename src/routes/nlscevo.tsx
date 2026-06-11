@@ -34,7 +34,9 @@ const NAV_LINKS = [
   { id: "groups", label: "Groups" },
   { id: "webhooks", label: "Webhooks" },
   { id: "errors", label: "Errors" },
+  { id: "try-it", label: "Try It console" },
   { id: "comparison", label: "vs Twilio" },
+  { id: "foundation", label: "Why a Ugandan firm" },
   { id: "pricing", label: "Pricing & License" },
 ];
 
