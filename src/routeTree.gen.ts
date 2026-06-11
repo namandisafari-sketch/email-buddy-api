@@ -15,6 +15,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ProcessRouteImport } from './routes/process'
 import { Route as PolicyRouteImport } from './routes/policy'
+import { Route as NlscevoRouteImport } from './routes/nlscevo'
 import { Route as LicenseRouteImport } from './routes/license'
 import { Route as DocsRouteImport } from './routes/docs'
 import { Route as CertificationsRouteImport } from './routes/certifications'
@@ -50,6 +51,11 @@ const PolicyRoute = PolicyRouteImport.update({
   path: '/policy',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NlscevoRoute = NlscevoRouteImport.update({
+  id: '/nlscevo',
+  path: '/nlscevo',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LicenseRoute = LicenseRouteImport.update({
   id: '/license',
   path: '/license',
@@ -76,6 +82,7 @@ export interface FileRoutesByFullPath {
   '/certifications': typeof CertificationsRoute
   '/docs': typeof DocsRoute
   '/license': typeof LicenseRoute
+  '/nlscevo': typeof NlscevoRoute
   '/policy': typeof PolicyRoute
   '/process': typeof ProcessRoute
   '/services': typeof ServicesRoute
@@ -88,6 +95,7 @@ export interface FileRoutesByTo {
   '/certifications': typeof CertificationsRoute
   '/docs': typeof DocsRoute
   '/license': typeof LicenseRoute
+  '/nlscevo': typeof NlscevoRoute
   '/policy': typeof PolicyRoute
   '/process': typeof ProcessRoute
   '/services': typeof ServicesRoute
@@ -101,6 +109,7 @@ export interface FileRoutesById {
   '/certifications': typeof CertificationsRoute
   '/docs': typeof DocsRoute
   '/license': typeof LicenseRoute
+  '/nlscevo': typeof NlscevoRoute
   '/policy': typeof PolicyRoute
   '/process': typeof ProcessRoute
   '/services': typeof ServicesRoute
@@ -115,6 +124,7 @@ export interface FileRouteTypes {
     | '/certifications'
     | '/docs'
     | '/license'
+    | '/nlscevo'
     | '/policy'
     | '/process'
     | '/services'
@@ -127,6 +137,7 @@ export interface FileRouteTypes {
     | '/certifications'
     | '/docs'
     | '/license'
+    | '/nlscevo'
     | '/policy'
     | '/process'
     | '/services'
@@ -139,6 +150,7 @@ export interface FileRouteTypes {
     | '/certifications'
     | '/docs'
     | '/license'
+    | '/nlscevo'
     | '/policy'
     | '/process'
     | '/services'
@@ -152,6 +164,7 @@ export interface RootRouteChildren {
   CertificationsRoute: typeof CertificationsRoute
   DocsRoute: typeof DocsRoute
   LicenseRoute: typeof LicenseRoute
+  NlscevoRoute: typeof NlscevoRoute
   PolicyRoute: typeof PolicyRoute
   ProcessRoute: typeof ProcessRoute
   ServicesRoute: typeof ServicesRoute
@@ -204,6 +217,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PolicyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/nlscevo': {
+      id: '/nlscevo'
+      path: '/nlscevo'
+      fullPath: '/nlscevo'
+      preLoaderRoute: typeof NlscevoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/license': {
       id: '/license'
       path: '/license'
@@ -240,6 +260,7 @@ const rootRouteChildren: RootRouteChildren = {
   CertificationsRoute: CertificationsRoute,
   DocsRoute: DocsRoute,
   LicenseRoute: LicenseRoute,
+  NlscevoRoute: NlscevoRoute,
   PolicyRoute: PolicyRoute,
   ProcessRoute: ProcessRoute,
   ServicesRoute: ServicesRoute,
