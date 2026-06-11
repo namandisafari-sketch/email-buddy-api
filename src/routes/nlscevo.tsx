@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { CodeBlock, Eyebrow } from "@/components/ui/primitives";
-import { BRAND, EVO_LICENSE, EVO_COMPARISON } from "@/lib/site-data";
+import { BRAND, EVO_LICENSE, EVO_COMPARISON, EVOLUTION_FAQ, BUNDLE } from "@/lib/site-data";
 
 export const Route = createFileRoute("/nlscevo")({
   head: () => ({
