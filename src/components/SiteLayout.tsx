@@ -35,10 +35,9 @@ function Header() {
     <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3.5">
         <Link to="/" className="flex items-center gap-2.5">
-          <span className="flex h-8 w-8 items-center justify-center rounded-md bg-primary font-serif text-lg font-bold text-primary-foreground">
-            S
-          </span>
+          <NlscLogo className="h-8 w-8 rounded-md" />
           <span className="font-serif text-lg font-semibold tracking-tight">{BRAND.name}</span>
+
           <span className="hidden text-xs font-medium tracking-widest text-muted-foreground sm:inline">
             · {BRAND.tag}
           </span>
