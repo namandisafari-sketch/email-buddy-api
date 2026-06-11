@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/SiteLayout";
 import { CodeBlock, Eyebrow } from "@/components/ui/primitives";
-import { BRAND } from "@/lib/site-data";
+import { BRAND, EVO_COMPARISON } from "@/lib/site-data";
 
 export const Route = createFileRoute("/docs")({
   head: () => ({
@@ -38,6 +38,7 @@ const NAV_LINKS = [
   { id: "automation", label: "Automation" },
   { id: "inbound", label: "Inbound Parse" },
   { id: "auth-token", label: "Server Authority" },
+  { id: "whatsapp", label: "WhatsApp (NLSCEVO)" },
 ];
 
 const SECTIONS: DocSection[] = [
