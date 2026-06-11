@@ -2,7 +2,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/SiteLayout";
 import { Eyebrow } from "@/components/ui/primitives";
 import { BRAND, SERVICES, TIMELINE } from "@/lib/site-data";
-import heroImg from "@/assets/hero-kampala.jpg";
+import heroAsset from "@/assets/datacenter-hero.png.asset.json";
+
+const heroImg = heroAsset.url;
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -27,11 +29,12 @@ function Index() {
       <section className="relative overflow-hidden bg-ink text-ink-foreground">
         <img
           src={heroImg}
-          alt="Aerial view of a Kampala neighbourhood — rooftops, mango trees and a red-earth road leading toward the city skyline."
+          alt="A blue-lit sovereign data centre — rows of illuminated server racks reflecting on a polished floor."
           width={1600}
           height={1024}
-          className="absolute inset-0 h-full w-full object-cover opacity-30"
+          className="absolute inset-0 h-full w-full object-cover opacity-40"
         />
+        <div className="absolute inset-0 bg-ink/70" />
         <div className="relative mx-auto max-w-7xl px-4 py-24 sm:py-32">
           <div className="max-w-3xl">
             <Eyebrow>Originated in Uganda</Eyebrow>

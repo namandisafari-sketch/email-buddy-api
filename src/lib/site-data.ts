@@ -12,6 +12,13 @@ export const BRAND = {
   price: "USh 500,000",
   evoPrice: "USh 760,000",
   evoApiBase: "https://evo.nlscug.com",
+  bundlePrice: "USh 1,160,000",
+};
+
+export const CONTACT = {
+  phone: "0326 338 014",
+  address: "1st Floor Lunna Plaza, 25, Entebbe Road, Kampala, Uganda",
+  poBox: "P.O Box: 6089",
 };
 
 export const CERTIFICATION = {
@@ -48,6 +55,86 @@ export const EVO_COMPARISON = [
   { feature: "Data sovereignty", evo: "Signed & settled in Uganda (UGX)", twilio: "Foreign billing & data residency" },
 ];
 
+// Twilio → NLSCEVO migration map
+export const EVO_TWILIO_MAP = [
+  {
+    twilio: "POST /Messages.json (Body)",
+    evo: "POST /message/sendText/{instance}",
+    note: "Plain text WhatsApp message. Swap From/To for your instance name + recipient number.",
+  },
+  {
+    twilio: "POST /Messages.json (MediaUrl)",
+    evo: "POST /message/sendMedia/{instance}",
+    note: "Images, audio, video and documents via public URL or base64 — no MMS surcharge.",
+  },
+  {
+    twilio: "Messaging Services / Sender Pools",
+    evo: "POST /instance/create",
+    note: "Create an instance per number you own. No reseller-leased numbers.",
+  },
+  {
+    twilio: "Inbound webhook (TwiML / status callback)",
+    evo: "POST /webhook/set/{instance}",
+    note: "Receive messages.upsert and connection.update as clean JSON at your endpoint.",
+  },
+  {
+    twilio: "Content Templates (HX... approval)",
+    evo: "POST /message/sendText / sendButtons",
+    note: "No Meta + Twilio template gatekeeping — send freely on session messages.",
+  },
+  {
+    twilio: "Conversations API (groups)",
+    evo: "POST /group/create/{instance}",
+    note: "Create groups, send invites and list participants natively.",
+  },
+  {
+    twilio: "Account SID + Auth Token",
+    evo: "Authorization: Bearer <token>",
+    note: "One sovereign token bound to your verified organisation and lifetime license.",
+  },
+];
+
+export const MIGRATION_STEPS = [
+  "Provision your NLSCEVO lifetime license and copy your Bearer token from Settings → API Reference.",
+  "Create an instance with POST /instance/create and scan the pairing QR with the number you own.",
+  "Re-point each Twilio Messages.json call to /message/sendText/{instance}; replace From/To with instance + number.",
+  "Move Twilio status callbacks to POST /webhook/set/{instance} listening for messages.upsert and connection.update.",
+  "Delete Twilio sender pools and stop monthly number rentals — your number stays authenticated for life.",
+  "Verify everything in the Try It console below before cutting production traffic over.",
+];
+
+// Why a local Ugandan company can offer this
+export const EVOLUTION_FAQ = {
+  question:
+    "How can a local Ugandan company provide a high-tech, top-ranking WhatsApp & email automation service?",
+  answer: "Evolution Foundation",
+  detail:
+    "NLSCEVO is built on the open-source Evolution engine, stewarded by the Evolution Foundation. By self-hosting the Evolution stack on sovereign Ugandan infrastructure and pairing it with our own Email Automation API, NLSC delivers world-class capability without renting it from Twilio or any foreign reseller. The Foundation supplies the proven engine; NLSC supplies the hosting, legal identity, NITA-U compliance and lifetime support — so the ranking is earned locally, not imported.",
+};
+
+// WhatsApp API must be purchased together with Email Automation
+export const BUNDLE = {
+  title: "NLSCEVO ships with the Email Automation API",
+  body: "The NLSCEVO WhatsApp API is sold as one sovereign bundle with the Email Automation API. Together they cover every customer touchpoint — WhatsApp, transactional and bulk email — under a single lifetime license and a single financial handle.",
+  items: [
+    { name: "NLSCEVO WhatsApp API", price: "USh 760,000" },
+    { name: "Email Automation API", price: "USh 500,000" },
+  ],
+  bundleNote: "Bought together as your activation bundle.",
+};
+
+export const CRYPTO_OPTIONS = [
+  { coin: "USDT (TRC-20)", network: "Tron", note: "Lowest network fee — recommended" },
+  { coin: "USDT (ERC-20)", network: "Ethereum", note: "Higher gas; confirm in 12 blocks" },
+  { coin: "Bitcoin (BTC)", network: "Bitcoin", note: "Settled at on-receipt UGX rate" },
+];
+
+export const DISCOUNT = {
+  amount: "USh 100,000",
+  day: "14th",
+  why: "The 14th of every month is our financial reconciliation date. Activations settled on the 14th clear in the same batch our finance handle remits to the bank, saving us processing overhead — so we pass USh 100,000 of that saving straight back to you.",
+};
+
 export const LICENSE_TERMS = [
   "Lifetime valid license — pay once, own it forever",
   "Full ownership of your issued API & Server Authority token",
@@ -72,6 +159,9 @@ export const NAV = [
   { to: "/process", label: "Process" },
   { to: "/docs", label: "API Docs" },
   { to: "/nlscevo", label: "WhatsApp API" },
+  { to: "/migration", label: "Migrate" },
+  { to: "/cart", label: "Cart" },
+  { to: "/billing", label: "Billing" },
   { to: "/license", label: "License" },
   { to: "/certifications", label: "Certifications" },
   { to: "/who-we-are", label: "Who we are" },
