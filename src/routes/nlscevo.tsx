@@ -443,6 +443,35 @@ function NlscEvoPage() {
             </div>
           </section>
 
+          <section id="foundation" className="scroll-mt-24">
+            <h2 className="font-serif text-2xl font-semibold">How can a local Ugandan firm rank this high?</h2>
+            <p className="mt-3 text-muted-foreground">{EVOLUTION_FAQ.question}</p>
+            <div className="mt-4 rounded-xl border border-primary/30 bg-primary/5 p-6">
+              <p className="text-xs font-semibold uppercase tracking-widest text-primary">The answer</p>
+              <p className="mt-1 font-serif text-2xl font-semibold">{EVOLUTION_FAQ.answer}</p>
+              <p className="mt-3 text-sm text-muted-foreground">{EVOLUTION_FAQ.detail}</p>
+            </div>
+
+            <div className="mt-6 rounded-xl border border-border bg-card p-6">
+              <h3 className="font-serif text-lg font-semibold">{BUNDLE.title}</h3>
+              <p className="mt-2 text-sm text-muted-foreground">{BUNDLE.body}</p>
+              <ul className="mt-4 divide-y divide-border">
+                {BUNDLE.items.map((item) => (
+                  <li key={item.name} className="flex items-center justify-between py-3 text-sm">
+                    <span className="font-medium">{item.name}</span>
+                    <span className="font-serif font-semibold">{item.price}</span>
+                  </li>
+                ))}
+              </ul>
+              <Link
+                to="/cart"
+                className="mt-5 inline-block rounded-md bg-ink px-5 py-2.5 text-sm font-medium text-ink-foreground hover:opacity-90"
+              >
+                Add the bundle to cart →
+              </Link>
+            </div>
+          </section>
+
           <section id="pricing" className="scroll-mt-24">
             <h2 className="font-serif text-2xl font-semibold">Pricing & License</h2>
             <div className="mt-5 rounded-xl border border-border bg-card p-7">
