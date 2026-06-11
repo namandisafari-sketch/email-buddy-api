@@ -6,13 +6,13 @@ import { TIMELINE } from "@/lib/site-data";
 export const Route = createFileRoute("/who-we-are")({
   head: () => ({
     meta: [
-      { title: "Who We Are — SelfUgaApi" },
+      { title: "Who We Are — NLSC" },
       {
         name: "description",
         content:
-          "SelfUgaApi is a sovereign Ugandan mail-delivery registry operating continuously since 2009, settled through Pesapal and edge-served by Vercel.",
+          "NLSC is a sovereign Ugandan mail-delivery registry operating continuously since 2009, settled through Pesapal and edge-served by Vercel.",
       },
-      { property: "og:title", content: "Who We Are — SelfUgaApi" },
+      { property: "og:title", content: "Who We Are — NLSC" },
     ],
   }),
   component: WhoWeArePage,
@@ -23,12 +23,12 @@ function WhoWeArePage() {
     <SiteLayout>
       <section className="border-b border-border">
         <div className="mx-auto max-w-7xl px-4 py-16">
-          <Eyebrow>SelfUgaApi · Operating since 2009</Eyebrow>
+          <Eyebrow>NLSC · Operating since 2009</Eyebrow>
           <h1 className="mt-4 max-w-3xl font-serif text-4xl font-semibold sm:text-5xl">
             A sovereign Ugandan email authority.
           </h1>
           <p className="mt-5 max-w-3xl text-lg text-muted-foreground">
-            From a Kampala desk to East Africa's edge, SelfUgaApi has issued lifetime, court-enforceable
+            From a Kampala desk to East Africa's edge, NLSC has issued lifetime, court-enforceable
             email infrastructure licenses for 17 years. Every API is signed in Uganda, settled in UGX, and
             delivered globally.
           </p>
@@ -48,7 +48,7 @@ function WhoWeArePage() {
           </div>
         </div>
 
-        <h2 className="mt-16 font-serif text-2xl font-semibold">From the desk · 17 years of SelfUgaApi</h2>
+        <h2 className="mt-16 font-serif text-2xl font-semibold">From the desk · 17 years of NLSC</h2>
         <div className="mt-6 space-y-6 border-l-2 border-primary/40 pl-6">
           {TIMELINE.map((t) => (
             <div key={t.title}>

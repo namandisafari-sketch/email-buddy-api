@@ -6,13 +6,13 @@ import { BRAND, LICENSE_TERMS, PAYMENT_METHODS } from "@/lib/site-data";
 export const Route = createFileRoute("/license")({
   head: () => ({
     meta: [
-      { title: "Lifetime License Terms — SelfUgaApi" },
+      { title: "Lifetime License Terms — NLSC" },
       {
         name: "description",
         content:
-          "The full SelfUgaApi Lifetime License: one API with full ownership, no resale, unlimited domain-based professional email, and all discontinuation conditions.",
+          "The full NLSC Lifetime License: one API with full ownership, no resale, unlimited domain-based professional email, and all discontinuation conditions.",
       },
-      { property: "og:title", content: "Lifetime License Terms — SelfUgaApi" },
+      { property: "og:title", content: "Lifetime License Terms — NLSC" },
       {
         property: "og:description",
         content:
@@ -26,7 +26,7 @@ export const Route = createFileRoute("/license")({
 const GRANTS = [
   {
     h: "1. One API, every capability",
-    p: "There is a single SelfUgaApi license — one API that carries all capabilities: transactional SMTP relay, bulk campaign sending, automation flows, inbound parse webhooks, and the Server Authority token. You do not buy separate products; the one license unlocks everything.",
+    p: "There is a single NLSC license — one API that carries all capabilities: transactional SMTP relay, bulk campaign sending, automation flows, inbound parse webhooks, and the Server Authority token. You do not buy separate products; the one license unlocks everything.",
   },
   {
     h: "2. Lifetime validity",
@@ -38,7 +38,7 @@ const GRANTS = [
   },
   {
     h: "4. No reselling",
-    p: "The license is bound to your verified organisation and may not be resold, sublicensed, transferred, leased, or shared with any third party. Forging or misrepresenting a SelfUgaApi license is a breach of contract and a violation of the Computer Misuse Act of Uganda.",
+    p: "The license is bound to your verified organisation and may not be resold, sublicensed, transferred, leased, or shared with any third party. Forging or misrepresenting a NLSC license is a breach of contract and a violation of the Computer Misuse Act of Uganda.",
   },
   {
     h: "5. Unlimited domain-based professional email",
@@ -65,7 +65,7 @@ function LicensePage() {
             One API. Full ownership. For the life of your stack.
           </h1>
           <p className="mt-5 max-w-3xl text-ink-foreground/80">
-            SelfUgaApi sells a single lifetime license — {BRAND.price}, issued once to your registered
+            NLSC sells a single lifetime license — {BRAND.price}, issued once to your registered
             organisation. The one API carries every capability. This page sets out exactly what you own and
             the conditions under which the license is discontinued.
           </p>

@@ -6,13 +6,13 @@ import { BRAND } from "@/lib/site-data";
 export const Route = createFileRoute("/policy")({
   head: () => ({
     meta: [
-      { title: "Policy & Law — SelfUgaApi" },
+      { title: "Policy & Law — NLSC" },
       {
         name: "description",
         content:
-          "SelfUgaApi acceptable-use policy, anti-abuse rules, and the legal framework governing lifetime email licenses under the laws of Uganda.",
+          "NLSC acceptable-use policy, anti-abuse rules, and the legal framework governing lifetime email licenses under the laws of Uganda.",
       },
-      { property: "og:title", content: "Policy & Law — SelfUgaApi" },
+      { property: "og:title", content: "Policy & Law — NLSC" },
     ],
   }),
   component: PolicyPage,
@@ -25,7 +25,7 @@ const SECTIONS = [
   },
   {
     h: "Identity & licensing",
-    p: "Every license is issued in your verified legal name. Reselling, forging, or misrepresenting a SelfUgaApi license is a breach of contract and a violation of the Computer Misuse Act of Uganda.",
+    p: "Every license is issued in your verified legal name. Reselling, forging, or misrepresenting a NLSC license is a breach of contract and a violation of the Computer Misuse Act of Uganda.",
   },
   {
     h: "Enforcement",

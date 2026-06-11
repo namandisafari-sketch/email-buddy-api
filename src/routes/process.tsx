@@ -5,13 +5,13 @@ import { Eyebrow } from "@/components/ui/primitives";
 export const Route = createFileRoute("/process")({
   head: () => ({
     meta: [
-      { title: "How a License Is Issued — SelfUgaApi" },
+      { title: "How a License Is Issued — NLSC" },
       {
         name: "description",
         content:
           "A serious process, because the license is forever. Submit information, settle through Pesapal, pass compliance review, and receive your API and token.",
       },
-      { property: "og:title", content: "How a License Is Issued — SelfUgaApi" },
+      { property: "og:title", content: "How a License Is Issued — NLSC" },
     ],
   }),
   component: ProcessPage,
@@ -25,8 +25,8 @@ const STEPS = [
   },
   {
     n: "02",
-    title: "Pay any bank to SelfUga Api Ltd",
-    body: "Pay through any bank — just say you are paying SelfUga Api Ltd — or pay from your desk to the engineer and guide integrator, and receive your receipt instantly.",
+    title: "Pay any bank to Nile Logic & Secure Cloud Ltd",
+    body: "Pay through any bank — just say you are paying Nile Logic & Secure Cloud Ltd — or pay from your desk to the engineer and guide integrator, and receive your receipt instantly.",
   },
   {
     n: "03",

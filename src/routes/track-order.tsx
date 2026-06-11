@@ -6,12 +6,12 @@ import { Eyebrow } from "@/components/ui/primitives";
 export const Route = createFileRoute("/track-order")({
   head: () => ({
     meta: [
-      { title: "Track Order — SelfUgaApi" },
+      { title: "Track Order — NLSC" },
       {
         name: "description",
-        content: "Track the review status of your SelfUgaApi lifetime license order using your Pesapal reference.",
+        content: "Track the review status of your NLSC lifetime license order using your Pesapal reference.",
       },
-      { property: "og:title", content: "Track Order — SelfUgaApi" },
+      { property: "og:title", content: "Track Order — NLSC" },
     ],
   }),
   component: TrackOrderPage,

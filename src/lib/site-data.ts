@@ -1,10 +1,14 @@
 export const BRAND = {
-  name: "SelfUgaApi",
+  name: "NLSC",
+  fullName: "Nile Logic & Secure Cloud",
+  tradingAs: "NLSCUG",
+  tagline: "Nile Logic & Secure Cloud, Uganda",
   tag: "UGANDA",
   product: "Email SMTP & Automation",
-  apiBase: "https://api.selfugaapi.ug/v1",
-  email: "api@selfugaapi.ug",
-  legalName: "SelfUga Api Ltd",
+  domain: "nlscug.com",
+  apiBase: "https://api.nlscug.com/v1",
+  email: "api@nlscug.com",
+  legalName: "Nile Logic & Secure Cloud Ltd",
   price: "USh 500,000",
 };
 
@@ -18,8 +22,8 @@ export const LICENSE_TERMS = [
 
 export const PAYMENT_METHODS = [
   {
-    title: "Pay any bank to SelfUga Api Ltd",
-    body: "Walk into any bank and state you are paying SelfUga Api Ltd. Settlement is confirmed against your order reference.",
+    title: "Pay any bank to Nile Logic & Secure Cloud Ltd",
+    body: "Walk into any bank and state you are paying Nile Logic & Secure Cloud Ltd. Settlement is confirmed against your order reference.",
   },
   {
     title: "Pay from your desk",
@@ -94,7 +98,7 @@ export const SERVICES: Service[] = [
     slug: "auth-token",
     badge: "Lifetime",
     title: "Server Authority Token",
-    blurb: "A sovereign ED25519 keypair bound to your verified legal identity, used to sign JWTs that every SelfUgaApi service trusts.",
+    blurb: "A sovereign ED25519 keypair bound to your verified legal identity, used to sign JWTs that every NLSC service trusts.",
     features: [
       "ED25519 keypair bound to legal identity",
       "Lifetime license — no renewals, no expiry",
@@ -106,22 +110,22 @@ export const SERVICES: Service[] = [
 export const TIMELINE = [
   {
     date: "May 2026",
-    title: "SelfUgaApi clears 1 billion emails delivered",
+    title: "NLSC clears 1 billion emails delivered",
     body: "Our relay now settles over a billion lifetime-licensed messages with 99.98% delivery.",
   },
   {
     date: "Mar 2026",
     title: "Pesapal East Africa renews settlement partnership",
-    body: "Multi-year MoU keeps UGX settlement instant across all SelfUgaApi services.",
+    body: "Multi-year MoU keeps UGX settlement instant across all NLSC services.",
   },
   {
     date: "Nov 2025",
-    title: "Vercel Edge powers SelfUgaApi globally",
+    title: "Vercel Edge powers NLSC globally",
     body: "Sub-50ms p95 latency from Kampala to Frankfurt on the new edge runtime.",
   },
   {
     date: "Aug 2009",
-    title: "SelfUgaApi founded in Kampala",
+    title: "NLSC founded in Kampala",
     body: "First sovereign Ugandan mail-delivery registry — operating continuously since 2009.",
   },
 ];
