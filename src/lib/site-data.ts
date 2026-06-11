@@ -1,7 +1,11 @@
 export const BRAND = {
   name: "NLSC",
+  fullName: "Nile Logic & Secure Cloud",
+  tradingAs: "NLSCUG",
+  tagline: "Nile Logic & Secure Cloud, Uganda",
   tag: "UGANDA",
   product: "Email SMTP & Automation",
+  domain: "nlscug.com",
   apiBase: "https://api.nlscug.com/v1",
   email: "api@nlscug.com",
   legalName: "Nile Logic & Secure Cloud Ltd",
