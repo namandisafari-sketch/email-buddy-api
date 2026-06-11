@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { BRAND, NAV } from "@/lib/site-data";
+import { NlscLogo } from "@/components/NlscLogo";
 
 function NoticeBanner() {
   const [open, setOpen] = useState(true);
@@ -34,10 +35,9 @@ function Header() {
     <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3.5">
         <Link to="/" className="flex items-center gap-2.5">
-          <span className="flex h-8 w-8 items-center justify-center rounded-md bg-primary font-serif text-lg font-bold text-primary-foreground">
-            S
-          </span>
+          <NlscLogo className="h-8 w-8 rounded-md" />
           <span className="font-serif text-lg font-semibold tracking-tight">{BRAND.name}</span>
+
           <span className="hidden text-xs font-medium tracking-widest text-muted-foreground sm:inline">
             · {BRAND.tag}
           </span>
@@ -98,11 +98,10 @@ function Footer() {
       <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <div className="flex items-center gap-2.5">
-            <span className="flex h-8 w-8 items-center justify-center rounded-md bg-primary font-serif text-lg font-bold text-primary-foreground">
-              S
-            </span>
+            <NlscLogo className="h-8 w-8 rounded-md" />
             <span className="font-serif text-lg font-semibold">{BRAND.name}</span>
           </div>
+
           <p className="mt-3 max-w-xs text-sm text-muted-foreground">
             Sovereign Email SMTP & automation APIs, signed in Kampala and settled across East Africa.
           </p>
