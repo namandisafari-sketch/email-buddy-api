@@ -430,8 +430,7 @@ export const submitMomoProof = createServerFn({ method: "POST" })
       date: new Date(),
       items: [
         { name: "NLSCEVO WhatsApp API — Lifetime License", price: 300000 },
-        { name: "Email Automation API — SMTP Relay & Campaigns", price: 250000 },
-        { name: "Server Authority Token — ED25519 Keypair", price: 130000 },
+        { name: "Email Automation API — SMTP Relay & Campaigns", price: 380000 },
       ],
       discount: 0,
       total: 680000,
