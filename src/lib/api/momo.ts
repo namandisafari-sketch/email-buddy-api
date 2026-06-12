@@ -3,6 +3,7 @@ import { z } from "zod";
 import postgres from "postgres";
 import { Resend } from "resend";
 import { getServerConfig } from "../config.server";
+import { buildInvoicePdf, type InvoiceData } from "./invoice";
 
 function generateReference() {
   return "NLSC-" + crypto.randomUUID().slice(0, 8).toUpperCase();
@@ -278,7 +279,7 @@ export function buildCredentialsJson(creds: ApiCredentials): string {
   return JSON.stringify(creds, null, 2);
 }
 
-async function sendActivationEmail(to: string, creds: ApiCredentials) {
+async function sendActivationEmail(to: string, creds: ApiCredentials, invoice: InvoiceData) {
   const config = getServerConfig();
   if (!config.resendApiKey) {
     console.warn("[Resend] No RESEND_API_KEY set — skipping email");
@@ -288,6 +289,7 @@ async function sendActivationEmail(to: string, creds: ApiCredentials) {
   const html = buildActivationEmailHtml(creds);
   const envContent = buildEnvFile(creds);
   const jsonContent = buildCredentialsJson(creds);
+  const pdfBuffer = buildInvoicePdf(invoice);
 
   await resend.emails.send({
     from: config.emailFrom,
@@ -303,9 +305,13 @@ async function sendActivationEmail(to: string, creds: ApiCredentials) {
         filename: `nlsc-${creds.reference.toLowerCase()}-credentials.json`,
         content: Buffer.from(jsonContent).toString("base64"),
       },
+      {
+        filename: `nlsc-invoice-${creds.reference.toLowerCase()}.pdf`,
+        content: pdfBuffer.toString("base64"),
+      },
     ],
   });
-  console.log(`[Resend] Activation email sent to ${to} with credential files`);
+  console.log(`[Resend] Activation email sent to ${to} with credential files and invoice`);
 }
 
 function buildRequestCallHtml(creds: { phone: string; ref: string; orgName: string }) {
@@ -416,7 +422,23 @@ export const submitMomoProof = createServerFn({ method: "POST" })
       `;
     });
 
-    await sendActivationEmail(data.contactEmail, credentials);
+    const invoice: InvoiceData = {
+      reference: ref,
+      orgName: data.orgName,
+      contactEmail: data.contactEmail,
+      contactPhone: data.contactPhone,
+      date: new Date(),
+      items: [
+        { name: "NLSCEVO WhatsApp API — Lifetime License", price: 300000 },
+        { name: "Email Automation API — SMTP Relay & Campaigns", price: 250000 },
+        { name: "Server Authority Token — ED25519 Keypair", price: 130000 },
+      ],
+      discount: 0,
+      total: 680000,
+      currency: "UGX",
+    };
+
+    await sendActivationEmail(data.contactEmail, credentials, invoice);
 
     return { success: true, credentials };
   });
