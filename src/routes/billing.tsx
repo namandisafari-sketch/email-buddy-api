@@ -10,7 +10,7 @@ import {
   MOMO_INFO,
   API_DELIVERY,
 } from "@/lib/site-data";
-import { submitMomoProof } from "@/lib/api/momo";
+import { requestMomoPayment, submitMomoProof } from "@/lib/api/momo";
 import type { ApiCredentials } from "@/lib/api/momo";
 
 export const Route = createFileRoute("/billing")({
@@ -49,6 +49,9 @@ function BillingPage() {
   const [contactEmail, setContactEmail] = useState("");
   const [contactPhone, setContactPhone] = useState("");
   const [orgName, setOrgName] = useState("");
+  const [cryptoEmail, setCryptoEmail] = useState("");
+  const [requestLoading, setRequestLoading] = useState(false);
+  const [requestError, setRequestError] = useState("");
   const [proofLoading, setProofLoading] = useState(false);
   const [proofError, setProofError] = useState("");
   const [credentials, setCredentials] = useState<ApiCredentials | null>(null);
@@ -58,6 +61,27 @@ function BillingPage() {
     () => "NLSC-" + Math.random().toString(36).slice(2, 8).toUpperCase(),
     [],
   );
+
+  async function handleRequestCall() {
+    setRequestLoading(true);
+    setRequestError("");
+    try {
+      await requestMomoPayment({
+        data: {
+          phone,
+          network: "mtn",
+          amount: "680000",
+          contactEmail: cryptoEmail,
+          orgName: org,
+        },
+      });
+      setRequested(true);
+    } catch {
+      setRequestError("Failed to submit request. Please try again.");
+    } finally {
+      setRequestLoading(false);
+    }
+  }
 
   async function handleSubmitProof() {
     setProofLoading(true);
@@ -199,13 +223,28 @@ function BillingPage() {
                       className="mt-1.5 w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
                     />
 
+                    <label className="mt-4 block text-sm font-medium">Email for confirmation</label>
+                    <input
+                      value={cryptoEmail}
+                      onChange={(e) => setCryptoEmail(e.target.value)}
+                      type="email"
+                      placeholder="you@company.com"
+                      className="mt-1.5 w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
+                    />
+
                     <button
-                      onClick={() => setRequested(true)}
-                      disabled={!org || !phone}
+                      onClick={handleRequestCall}
+                      disabled={requestLoading || !org || !phone || !cryptoEmail}
                       className="mt-6 w-full rounded-md bg-ink px-5 py-3 text-sm font-medium text-ink-foreground transition-opacity hover:opacity-90 disabled:opacity-40"
                     >
-                      Request call from financial handle
+                      {requestLoading ? "Submitting…" : "Request call from financial handle"}
                     </button>
+
+                    {requestError && (
+                      <div className="mt-4 rounded-lg border border-destructive/30 bg-destructive/5 p-4 text-sm text-destructive">
+                        {requestError}
+                      </div>
+                    )}
 
                     {requested && (
                       <div className="mt-5 rounded-lg border border-primary/30 bg-primary/5 p-4 text-sm">

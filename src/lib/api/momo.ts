@@ -247,6 +247,37 @@ export function buildActivationEmailHtml(creds: ApiCredentials): string {
 </html>`;
 }
 
+function buildEnvFile(creds: ApiCredentials): string {
+  return `# NLSC API Credentials — ${creds.reference}
+# Delivered to ${creds.orgName}
+# Keep this file secure. Do not share or commit to version control.
+
+# Email Automation — SMTP
+SMTP_SERVER=${creds.email.smtpServer}
+SMTP_PORT=${creds.email.smtpPort}
+SMTP_USERNAME=${creds.email.smtpUsername}
+SMTP_PASSWORD=${creds.email.smtpPassword}
+
+# Email Automation — REST API
+EMAIL_API_BASE=${creds.email.apiBase}
+EMAIL_API_KEY=${creds.email.apiKey}
+
+# NLSCEVO WhatsApp API
+WHATSAPP_API_BASE=${creds.whatsapp.apiBase}
+WHATSAPP_BEARER_TOKEN=${creds.whatsapp.bearerToken}
+WHATSAPP_DEFAULT_INSTANCE=${creds.whatsapp.defaultInstance}
+
+# General
+AUTH_TOKEN=${creds.token}
+REFERENCE=${creds.reference}
+ORGANISATION=${creds.orgName}
+`;
+}
+
+function buildCredentialsJson(creds: ApiCredentials): string {
+  return JSON.stringify(creds, null, 2);
+}
+
 async function sendActivationEmail(to: string, creds: ApiCredentials) {
   const config = getServerConfig();
   if (!config.resendApiKey) {
@@ -255,13 +286,87 @@ async function sendActivationEmail(to: string, creds: ApiCredentials) {
   }
   const resend = new Resend(config.resendApiKey);
   const html = buildActivationEmailHtml(creds);
+  const envContent = buildEnvFile(creds);
+  const jsonContent = buildCredentialsJson(creds);
+
   await resend.emails.send({
     from: config.emailFrom,
     to,
     subject: `Your NLSC bundle is active — Reference ${creds.reference}`,
     html,
+    attachments: [
+      {
+        filename: `nlsc-${creds.reference.toLowerCase()}.env`,
+        content: Buffer.from(envContent).toString("base64"),
+      },
+      {
+        filename: `nlsc-${creds.reference.toLowerCase()}-credentials.json`,
+        content: Buffer.from(jsonContent).toString("base64"),
+      },
+    ],
   });
-  console.log(`[Resend] Activation email sent to ${to}`);
+  console.log(`[Resend] Activation email sent to ${to} with credential files`);
+}
+
+function buildRequestCallHtml(creds: { phone: string; ref: string; orgName: string }) {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment activation request received — NLSC</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f5f5f0;font-family:Georgia,'Times New Roman',serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f5f5f0;padding:40px 0;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="520" cellpadding="0" cellspacing="0" style="background-color:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.06);">
+          <tr>
+            <td style="background-color:#1a1a1a;padding:32px 40px;text-align:center;">
+              ${LOGO_SVG}
+              <p style="margin:8px 0 0;font-size:12px;color:#a0a0a0;letter-spacing:2px;text-transform:uppercase;">Activation Request Received</p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:40px;">
+              <h2 style="margin:0 0 16px;font-size:22px;font-weight:600;color:#1a1a1a;font-family:Georgia,'Times New Roman',serif;">Thank you, ${creds.orgName}</h2>
+              <p style="margin:0 0 12px;font-size:15px;color:#555;line-height:1.6;">Your payment activation request has been received. Our financial handle will call you at <strong>${creds.phone}</strong> from <strong>0326 338 014</strong> to verify your organisation and activate your payment.</p>
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f9f9f4;border-radius:8px;padding:16px;margin:16px 0;">
+                <tr>
+                  <td>
+                    <p style="margin:0;font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;">Reference</p>
+                    <p style="margin:4px 0 0;font-size:14px;color:#1a1a1a;font-family:monospace;">${creds.ref}</p>
+                  </td>
+                </tr>
+              </table>
+              <p style="margin:0 0 16px;font-size:13px;color:#888;line-height:1.6;"><strong>Security:</strong> 0326 338 014 is the only number that calls you to verify an activation. Never share your secure NLSCEVO token, password or wallet keys with anyone — not even the caller.</p>
+              <hr style="border:none;border-top:1px solid #e8e8e0;margin:16px 0;" />
+              <p style="margin:0;font-size:12px;color:#999;">© ${new Date().getFullYear()} NLSC — Nile Logic & Secure Cloud Ltd</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+}
+
+async function sendRequestCallEmail(to: string, orgName: string, phone: string, ref: string) {
+  const config = getServerConfig();
+  if (!config.resendApiKey) {
+    console.warn("[Resend] No RESEND_API_KEY set — skipping request call email");
+    return;
+  }
+  const resend = new Resend(config.resendApiKey);
+  const html = buildRequestCallHtml({ phone, ref, orgName });
+  await resend.emails.send({
+    from: config.emailFrom,
+    to,
+    subject: `Payment activation request received — Reference ${ref}`,
+    html,
+  });
+  console.log(`[Resend] Request call confirmation sent to ${to}`);
 }
 
 export const submitMomoProof = createServerFn({ method: "POST" })
@@ -322,6 +427,8 @@ export const requestMomoPayment = createServerFn({ method: "POST" })
       phone: z.string().min(1),
       network: z.enum(["mtn"]),
       amount: z.string().min(1),
+      contactEmail: z.string().email(),
+      orgName: z.string().min(1),
     }),
   )
   .handler(async ({ data }) => {
@@ -331,6 +438,8 @@ export const requestMomoPayment = createServerFn({ method: "POST" })
     console.log(`[MTN MoMo] Initiating payment: ${data.amount} UGX from ${data.phone}`);
     console.log(`[MTN MoMo] Reference: ${reference}`);
     console.log(`[MTN MoMo] API key: ${config.momo.subscriptionKey}`);
+
+    await sendRequestCallEmail(data.contactEmail, data.orgName, data.phone, reference);
 
     const errorMessage = "MTN network currently not fine";
 
