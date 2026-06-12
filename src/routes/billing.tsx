@@ -46,7 +46,7 @@ function BillingPage() {
         data: { phone: momoPhone, network: network as "mtn", amount: "680000" },
       });
       if (!result.success) {
-        setMomoError(result.error);
+        setMomoError(`${result.error} (Ref: ${result.reference})`);
       }
     } catch {
       setMomoError("MTN network currently not fine");
