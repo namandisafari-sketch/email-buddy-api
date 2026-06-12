@@ -12,7 +12,7 @@ export const BRAND = {
   price: "USh 500,000",
   evoPrice: "USh 760,000",
   evoApiBase: "https://evo.nlscug.com",
-  bundlePrice: "USh 1,160,000",
+  bundlePrice: "USh 680,000",
 };
 
 export const CONTACT = {
