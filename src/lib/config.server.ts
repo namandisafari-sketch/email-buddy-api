@@ -19,8 +19,11 @@ import process from "node:process";
 export function getServerConfig() {
   return {
     nodeEnv: process.env.NODE_ENV,
-    // Add server-only values here, e.g.:
-    //   databaseUrl: process.env.DATABASE_URL,
-    //   stripeSecretKey: process.env.STRIPE_SECRET_KEY,
+    momo: {
+      subscriptionKey: process.env.MTN_MOMO_SUBSCRIPTION_KEY ?? "bca0c92d326a46cd885f443d51b859f1",
+      apiUser: process.env.MTN_MOMO_API_USER ?? "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      apiKey: process.env.MTN_MOMO_API_KEY ?? "d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6",
+      environment: process.env.MTN_MOMO_ENVIRONMENT ?? "sandbox",
+    },
   };
 }

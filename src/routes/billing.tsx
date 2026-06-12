@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { CodeBlock, Eyebrow } from "@/components/ui/primitives";
 import { BRAND, CONTACT, CRYPTO_OPTIONS, DISCOUNT } from "@/lib/site-data";
+import { requestMomoPayment } from "@/lib/api/momo";
 
 export const Route = createFileRoute("/billing")({
   head: () => ({
@@ -31,7 +32,28 @@ function BillingPage() {
   const [phone, setPhone] = useState("");
   const [coin, setCoin] = useState(CRYPTO_OPTIONS[0].coin);
   const [requested, setRequested] = useState(false);
+  const [network, setNetwork] = useState("mtn");
+  const [momoPhone, setMomoPhone] = useState("");
+  const [momoLoading, setMomoLoading] = useState(false);
+  const [momoError, setMomoError] = useState("");
   const fourteenth = useMemo(nextFourteenth, []);
+
+  async function handleMomoPay() {
+    setMomoLoading(true);
+    setMomoError("");
+    try {
+      const result = await requestMomoPayment({
+        data: { phone: momoPhone, network: network as "mtn", amount: "680000" },
+      });
+      if (!result.success) {
+        setMomoError(result.error);
+      }
+    } catch {
+      setMomoError("MTN network currently not fine");
+    } finally {
+      setMomoLoading(false);
+    }
+  }
 
   const ref = useMemo(
     () => "NLSC-" + Math.random().toString(36).slice(2, 8).toUpperCase(),
@@ -163,6 +185,50 @@ function BillingPage() {
           </p>
         </div>
       </div>
+
+      {/* Mobile Money */}
+      <section className="border-t border-border">
+        <div className="mx-auto max-w-7xl px-4 py-14">
+          <Eyebrow>Local mobile money</Eyebrow>
+          <h2 className="mt-4 font-serif text-3xl font-semibold">Pay via MTN MoMo</h2>
+          <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+            Pay your bundle directly from your MTN Mobile Money wallet.
+          </p>
+
+          <div className="mt-8 max-w-lg rounded-2xl border border-border bg-card p-7 shadow-sm">
+            <label className="block text-sm font-medium">Network</label>
+            <select
+              value={network}
+              onChange={(e) => setNetwork(e.target.value)}
+              className="mt-1.5 w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
+            >
+              <option value="mtn">MTN Mobile Money</option>
+            </select>
+
+            <label className="mt-4 block text-sm font-medium">Phone number</label>
+            <input
+              value={momoPhone}
+              onChange={(e) => setMomoPhone(e.target.value)}
+              placeholder="07XX XXX XXX"
+              className="mt-1.5 w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
+            />
+
+            <button
+              onClick={handleMomoPay}
+              disabled={momoLoading || !momoPhone}
+              className="mt-6 w-full rounded-md bg-ink px-5 py-3 text-sm font-medium text-ink-foreground transition-opacity hover:opacity-90 disabled:opacity-40"
+            >
+              {momoLoading ? "Processing…" : `Pay ${BRAND.bundlePrice} via MTN MoMo`}
+            </button>
+
+            {momoError && (
+              <div className="mt-4 rounded-lg border border-destructive/30 bg-destructive/5 p-4 text-sm text-destructive">
+                {momoError}
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
 
       <section className="border-t border-border bg-secondary/30">
         <div className="mx-auto max-w-7xl px-4 py-10 text-sm text-muted-foreground">
