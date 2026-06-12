@@ -387,6 +387,8 @@ export const submitMomoProof = createServerFn({ method: "POST" })
     }),
   )
   .handler(async ({ data }) => {
+    console.log("[submitMomoProof] Starting submission for", data.contactEmail);
+    try {
     const ref = data.reference;
     const token = generateToken();
     const smtpPassword = generatePassword();
@@ -451,6 +453,10 @@ export const submitMomoProof = createServerFn({ method: "POST" })
     await sendActivationEmail(data.contactEmail, credentials, invoices);
 
     return { success: true, credentials };
+    } catch (err) {
+      console.error("[submitMomoProof] Error:", err);
+      throw err;
+    }
   });
 
 export const requestMomoPayment = createServerFn({ method: "POST" })
