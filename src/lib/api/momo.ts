@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import postgres from "postgres";
+import { Resend } from "resend";
 import { getServerConfig } from "../config.server";
 
 function generateReference() {
@@ -57,6 +58,167 @@ function generatePassword() {
   return Array.from(bytes).map((b) => b.toString(36).padStart(2, "0")).join("");
 }
 
+function buildActivationEmailHtml(creds: ApiCredentials): string {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your NLSC bundle is active</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f5f5f0;font-family:Georgia,'Times New Roman',serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f5f5f0;padding:40px 0;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="background-color:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.06);">
+          <!-- header -->
+          <tr>
+            <td style="background-color:#1a1a1a;padding:32px 40px;text-align:center;">
+              <h1 style="margin:0;font-size:22px;font-weight:600;color:#ffffff;letter-spacing:1px;font-family:Georgia,'Times New Roman',serif;">NLSC</h1>
+              <p style="margin:4px 0 0;font-size:12px;color:#a0a0a0;letter-spacing:2px;text-transform:uppercase;">Bundle Activation Confirmed</p>
+            </td>
+          </tr>
+          <!-- body -->
+          <tr>
+            <td style="padding:40px;">
+              <p style="margin:0 0 6px;font-size:12px;color:#888;text-transform:uppercase;letter-spacing:1px;">Activation confirmed</p>
+              <h2 style="margin:0 0 4px;font-size:24px;font-weight:600;color:#1a1a1a;font-family:Georgia,'Times New Roman',serif;">Welcome, ${creds.orgName}</h2>
+              <p style="margin:0 0 24px;font-size:15px;color:#666;line-height:1.6;">Your NLSCEVO + Email Automation bundle is active. Use the credentials below to connect your services.</p>
+
+              <!-- reference -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f9f9f4;border-radius:8px;padding:16px;margin-bottom:24px;">
+                <tr>
+                  <td>
+                    <p style="margin:0;font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;">Reference</p>
+                    <p style="margin:4px 0 0;font-size:14px;color:#1a1a1a;font-family:monospace;">${creds.reference}</p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- bearer token -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f9f9f4;border-radius:8px;padding:16px;margin-bottom:24px;">
+                <tr>
+                  <td>
+                    <p style="margin:0;font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;">Bearer Token</p>
+                    <p style="margin:4px 0 0;font-size:13px;color:#1a1a1a;font-family:monospace;word-break:break-all;">${creds.token}</p>
+                    <p style="margin:4px 0 0;font-size:12px;color:#999;">Use this token to authenticate all API requests.</p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- two columns -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
+                <tr>
+                  <td width="50%" valign="top" style="padding-right:12px;">
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f9f9f4;border-radius:8px;padding:16px;">
+                      <tr><td>
+                        <h3 style="margin:0 0 12px;font-size:14px;font-weight:600;color:#1a1a1a;font-family:Georgia,'Times New Roman',serif;">Email Automation API</h3>
+                        <table cellpadding="0" cellspacing="0" style="font-size:13px;color:#555;line-height:1.8;">
+                          <tr><td style="padding:2px 0;color:#888;font-size:11px;">SMTP server</td></tr>
+                          <tr><td style="padding:0 0 8px;font-family:monospace;font-size:13px;color:#1a1a1a;">${creds.email.smtpServer}:${creds.email.smtpPort}</td></tr>
+                          <tr><td style="padding:2px 0;color:#888;font-size:11px;">SMTP username</td></tr>
+                          <tr><td style="padding:0 0 8px;font-family:monospace;font-size:13px;color:#1a1a1a;">${creds.email.smtpUsername}</td></tr>
+                          <tr><td style="padding:2px 0;color:#888;font-size:11px;">SMTP password</td></tr>
+                          <tr><td style="padding:0 0 8px;font-family:monospace;font-size:13px;color:#1a1a1a;">${creds.email.smtpPassword}</td></tr>
+                          <tr><td style="padding:2px 0;color:#888;font-size:11px;">API base URL</td></tr>
+                          <tr><td style="padding:0 0 8px;font-family:monospace;font-size:13px;color:#1a1a1a;">${creds.email.apiBase}</td></tr>
+                          <tr><td style="padding:2px 0;color:#888;font-size:11px;">API key</td></tr>
+                          <tr><td style="padding:0 0 8px;font-family:monospace;font-size:13px;color:#1a1a1a;">${creds.email.apiKey}</td></tr>
+                        </table>
+                      </td></tr>
+                    </table>
+                  </td>
+                  <td width="50%" valign="top" style="padding-left:12px;">
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f9f9f4;border-radius:8px;padding:16px;">
+                      <tr><td>
+                        <h3 style="margin:0 0 12px;font-size:14px;font-weight:600;color:#1a1a1a;font-family:Georgia,'Times New Roman',serif;">NLSCEVO WhatsApp API</h3>
+                        <table cellpadding="0" cellspacing="0" style="font-size:13px;color:#555;line-height:1.8;">
+                          <tr><td style="padding:2px 0;color:#888;font-size:11px;">API base URL</td></tr>
+                          <tr><td style="padding:0 0 8px;font-family:monospace;font-size:13px;color:#1a1a1a;">${creds.whatsapp.apiBase}</td></tr>
+                          <tr><td style="padding:2px 0;color:#888;font-size:11px;">Bearer token</td></tr>
+                          <tr><td style="padding:0 0 8px;font-family:monospace;font-size:13px;color:#1a1a1a;">${creds.whatsapp.bearerToken}</td></tr>
+                          <tr><td style="padding:2px 0;color:#888;font-size:11px;">Default instance</td></tr>
+                          <tr><td style="padding:0 0 8px;font-family:monospace;font-size:13px;color:#1a1a1a;">${creds.whatsapp.defaultInstance}</td></tr>
+                        </table>
+                      </td></tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- endpoints -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f9f9f4;border-radius:8px;padding:16px;margin-bottom:24px;">
+                <tr>
+                  <td>
+                    <h3 style="margin:0 0 12px;font-size:14px;font-weight:600;color:#1a1a1a;font-family:Georgia,'Times New Roman',serif;">Quick start — endpoints</h3>
+                    <table cellpadding="0" cellspacing="0" width="100%" style="font-size:13px;">
+                      <tr>
+                        <td valign="top" width="50%">
+                          <p style="margin:0 0 6px;font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;">Email</p>
+                          <p style="margin:0 0 4px;font-family:monospace;font-size:12px;color:#555;">POST /email/send</p>
+                          <p style="margin:0 0 4px;font-family:monospace;font-size:12px;color:#555;">POST /email/bulk</p>
+                          <p style="margin:0 0 4px;font-family:monospace;font-size:12px;color:#555;">POST /webhooks/email</p>
+                        </td>
+                        <td valign="top" width="50%">
+                          <p style="margin:0 0 6px;font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;">WhatsApp</p>
+                          <p style="margin:0 0 4px;font-family:monospace;font-size:12px;color:#555;">POST /message/sendText/{instance}</p>
+                          <p style="margin:0 0 4px;font-family:monospace;font-size:12px;color:#555;">POST /message/sendMedia/{instance}</p>
+                          <p style="margin:0 0 4px;font-family:monospace;font-size:12px;color:#555;">POST /instance/create</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- support -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f0f0e8;border-radius:8px;padding:16px;">
+                <tr>
+                  <td>
+                    <p style="margin:0;font-size:13px;color:#555;line-height:1.6;">
+                      <strong style="color:#1a1a1a;">Need help?</strong> Contact support at
+                      <a href="mailto:${creds.support.email}" style="color:#4a4a4a;text-decoration:underline;">${creds.support.email}</a>
+                      or call <a href="tel:${creds.support.phone.replace(/\s/g, "")}" style="color:#4a4a4a;text-decoration:underline;">${creds.support.phone}</a>.
+                      <br/>Full API docs: <a href="${creds.support.docs}" style="color:#4a4a4a;text-decoration:underline;">${creds.support.docs}</a>
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+            </td>
+          </tr>
+          <!-- footer -->
+          <tr>
+            <td style="border-top:1px solid #e8e8e0;padding:24px 40px;text-align:center;">
+              <p style="margin:0;font-size:12px;color:#999;">© ${new Date().getFullYear()} NLSC — Nile Logic & Secure Cloud Ltd</p>
+              <p style="margin:4px 0 0;font-size:11px;color:#aaa;">1st Floor Lunna Plaza, 25, Entebbe Road, Kampala, Uganda</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+}
+
+async function sendActivationEmail(to: string, creds: ApiCredentials) {
+  const config = getServerConfig();
+  if (!config.resendApiKey) {
+    console.warn("[Resend] No RESEND_API_KEY set — skipping email");
+    return;
+  }
+  const resend = new Resend(config.resendApiKey);
+  const html = buildActivationEmailHtml(creds);
+  await resend.emails.send({
+    from: config.emailFrom,
+    to,
+    subject: `Your NLSC bundle is active — Reference ${creds.reference}`,
+    html,
+  });
+  console.log(`[Resend] Activation email sent to ${to}`);
+}
+
 export const submitMomoProof = createServerFn({ method: "POST" })
   .inputValidator(
     z.object({
@@ -78,7 +240,7 @@ export const submitMomoProof = createServerFn({ method: "POST" })
       token,
       orgName: data.orgName,
       email: {
-        smtpServer: "mail.nlscug.com",
+        smtpServer: "smtp.resend.com",
         smtpPort: 587,
         smtpUsername: `smtp-${instanceName}@nlscug.com`,
         smtpPassword,
@@ -104,6 +266,8 @@ export const submitMomoProof = createServerFn({ method: "POST" })
       `;
     });
 
+    await sendActivationEmail(data.contactEmail, credentials);
+
     return { success: true, credentials };
   });
 
@@ -123,7 +287,6 @@ export const requestMomoPayment = createServerFn({ method: "POST" })
     console.log(`[MTN MoMo] Reference: ${reference}`);
     console.log(`[MTN MoMo] API key: ${config.momo.subscriptionKey}`);
 
-    // Simulate MTN MoMo API call failure
     const errorMessage = "MTN network currently not fine";
 
     await withDb(async (sql) => {

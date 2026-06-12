@@ -163,7 +163,7 @@ export const MOMO_INFO = {
 
 export const API_DELIVERY = {
   smtp: {
-    server: "mail.nlscug.com",
+    server: "smtp.resend.com",
     port: 587,
     security: "STARTTLS",
     authMethod: "CRAM-MD5",

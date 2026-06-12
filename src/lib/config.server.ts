@@ -20,6 +20,8 @@ export function getServerConfig() {
   return {
     nodeEnv: process.env.NODE_ENV,
     databaseUrl: process.env.DATABASE_URL ?? process.env.SUPABASE_DB_URL,
+    resendApiKey: process.env.RESEND_API_KEY,
+    emailFrom: process.env.EMAIL_FROM ?? "NLSC <api@nlscug.com>",
     momo: {
       subscriptionKey: process.env.MTN_MOMO_SUBSCRIPTION_KEY ?? "bca0c92d326a46cd885f443d51b859f1",
       apiUser: process.env.MTN_MOMO_API_USER ?? "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
