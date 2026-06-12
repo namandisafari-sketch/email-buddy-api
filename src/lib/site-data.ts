@@ -155,7 +155,7 @@ export const PAYMENT_METHODS = [
 ];
 
 export const MOMO_INFO = {
-  number: "+256 700 000 000",
+  number: "0792227777",
   name: "NLSC LTD — Mobile Money",
   network: "MTN / Airtel",
   note: "Send exactly USh 680,000 and include your order reference as the payment reason.",
