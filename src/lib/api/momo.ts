@@ -58,7 +58,14 @@ function generatePassword() {
   return Array.from(bytes).map((b) => b.toString(36).padStart(2, "0")).join("");
 }
 
-function buildActivationEmailHtml(creds: ApiCredentials): string {
+const LOGO_SVG = `<svg viewBox="0 0 680 680" width="48" height="48" style="display:block;margin:0 auto;">
+  <rect width="680" height="680" rx="120" fill="#080808" />
+  <path fill="none" stroke="#5a9e82" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" d="M 185 220 C 185 220, 185 370, 340 370 C 495 370, 495 480, 495 480" />
+  <path fill="none" stroke="#5a9e82" stroke-width="40" stroke-linecap="round" d="M 495 220 C 495 220, 495 370, 340 370 C 185 370, 185 480, 185 480" />
+  <circle fill="#5a9e82" cx="340" cy="530" r="26" />
+</svg>`;
+
+export function buildActivationEmailHtml(creds: ApiCredentials): string {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,8 +81,8 @@ function buildActivationEmailHtml(creds: ApiCredentials): string {
           <!-- header -->
           <tr>
             <td style="background-color:#1a1a1a;padding:32px 40px;text-align:center;">
-              <h1 style="margin:0;font-size:22px;font-weight:600;color:#ffffff;letter-spacing:1px;font-family:Georgia,'Times New Roman',serif;">NLSC</h1>
-              <p style="margin:4px 0 0;font-size:12px;color:#a0a0a0;letter-spacing:2px;text-transform:uppercase;">Bundle Activation Confirmed</p>
+              ${LOGO_SVG}
+              <p style="margin:8px 0 0;font-size:12px;color:#a0a0a0;letter-spacing:2px;text-transform:uppercase;">Bundle Activation Confirmed</p>
             </td>
           </tr>
           <!-- body -->
@@ -101,7 +108,7 @@ function buildActivationEmailHtml(creds: ApiCredentials): string {
                   <td>
                     <p style="margin:0;font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;">Bearer Token</p>
                     <p style="margin:4px 0 0;font-size:13px;color:#1a1a1a;font-family:monospace;word-break:break-all;">${creds.token}</p>
-                    <p style="margin:4px 0 0;font-size:12px;color:#999;">Use this token to authenticate all API requests.</p>
+                    <p style="margin:4px 0 0;font-size:12px;color:#999;">Use this token to authenticate all API requests. Keep it secret — it is shown once.</p>
                   </td>
                 </tr>
               </table>
@@ -171,6 +178,43 @@ function buildActivationEmailHtml(creds: ApiCredentials): string {
                 </tr>
               </table>
 
+              <!-- license agreement -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e0e0d8;border-radius:8px;margin-bottom:24px;">
+                <tr>
+                  <td style="padding:20px;">
+                    <h3 style="margin:0 0 16px;font-size:15px;font-weight:600;color:#1a1a1a;font-family:Georgia,'Times New Roman',serif;">License Agreement — Your Rights & Obligations</h3>
+                    <p style="margin:0 0 12px;font-size:13px;color:#555;line-height:1.6;">This license is issued to <strong>${creds.orgName}</strong> (Reference: ${creds.reference}) under the terms set out below. By using the credentials delivered in this email, you accept these terms.</p>
+
+                    <h4 style="margin:0 0 6px;font-size:13px;font-weight:600;color:#1a1a1a;">1. One API, Every Capability</h4>
+                    <p style="margin:0 0 12px;font-size:13px;color:#555;line-height:1.6;">There is a single NLSC license — one API that carries all capabilities: transactional SMTP relay, bulk campaign sending, automation flows, inbound parse webhooks, and the Server Authority token. You do not buy separate products; the one license unlocks everything.</p>
+
+                    <h4 style="margin:0 0 6px;font-size:13px;font-weight:600;color:#1a1a1a;">2. Lifetime Validity</h4>
+                    <p style="margin:0 0 12px;font-size:13px;color:#555;line-height:1.6;">The license is valid for the lifetime of your stack. You pay once. There is no expiry, no renewal, and no subscription. The license remains valid as long as these terms are honored.</p>
+
+                    <h4 style="margin:0 0 6px;font-size:13px;font-weight:600;color:#1a1a1a;">3. Full Ownership</h4>
+                    <p style="margin:0 0 12px;font-size:13px;color:#555;line-height:1.6;">On issuance you hold full ownership of your API credentials and Server Authority token, bound to your registered organisation. Ownership cannot be revoked except where these terms are breached.</p>
+
+                    <h4 style="margin:0 0 6px;font-size:13px;font-weight:600;color:#1a1a1a;">4. No Reselling or Transfer</h4>
+                    <p style="margin:0 0 12px;font-size:13px;color:#555;line-height:1.6;">The license is bound to your verified organisation and may not be resold, sublicensed, transferred, leased, or shared with any third party. Forging or misrepresenting an NLSC license is a breach of contract and a violation of the Computer Misuse Act of Uganda.</p>
+
+                    <h4 style="margin:0 0 6px;font-size:13px;font-weight:600;color:#1a1a1a;">5. Unlimited Domain-Based Professional Email</h4>
+                    <p style="margin:0 0 12px;font-size:13px;color:#555;line-height:1.6;">You may produce an unlimited number of professional email addresses across your owned and verified domains. There is no per-mailbox fee and no cap on addresses, provided each sending domain maintains valid SPF, DKIM and DMARC records.</p>
+
+                    <h4 style="margin:0 0 6px;font-size:13px;font-weight:600;color:#1a1a1a;">6. Discontinuation Conditions</h4>
+                    <p style="margin:0 0 6px;font-size:13px;color:#555;line-height:1.6;">This license is discontinued immediately and no refund is issued if:</p>
+                    <ul style="margin:0 0 12px;padding-left:20px;font-size:13px;color:#555;line-height:1.8;">
+                      <li>You provided false information during registration.</li>
+                      <li>You resell, sublicense, transfer, or share the license.</li>
+                      <li>You send unsolicited bulk mail, phishing, malware, or spoofed identities.</li>
+                      <li>Your sending domains show persistent deliverability abuse — complaint rates above 0.1%, ignored unsubscribe requests, or invalid SPF/DKIM/DMARC — and you fail to correct it.</li>
+                    </ul>
+
+                    <h4 style="margin:0 0 6px;font-size:13px;font-weight:600;color:#1a1a1a;">7. Governing Law</h4>
+                    <p style="margin:0 0 0;font-size:13px;color:#555;line-height:1.6;">These terms are governed by and adjudicated under the laws of the Republic of Uganda. Disputes are subject to the jurisdiction of the courts of Uganda.</p>
+                  </td>
+                </tr>
+              </table>
+
               <!-- support -->
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f0f0e8;border-radius:8px;padding:16px;">
                 <tr>
@@ -192,6 +236,7 @@ function buildActivationEmailHtml(creds: ApiCredentials): string {
             <td style="border-top:1px solid #e8e8e0;padding:24px 40px;text-align:center;">
               <p style="margin:0;font-size:12px;color:#999;">© ${new Date().getFullYear()} NLSC — Nile Logic & Secure Cloud Ltd</p>
               <p style="margin:4px 0 0;font-size:11px;color:#aaa;">1st Floor Lunna Plaza, 25, Entebbe Road, Kampala, Uganda</p>
+              <p style="margin:4px 0 0;font-size:11px;color:#aaa;">P.O Box: 6089 · Verification line: 0326 338 014</p>
             </td>
           </tr>
         </table>
