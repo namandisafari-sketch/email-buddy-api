@@ -12,22 +12,25 @@ export type InvoiceData = {
   currency: string;
 };
 
-export function buildInvoicePdf(data: InvoiceData): Buffer {
-  const doc = new PDFDocument({
-    size: "A4",
-    margin: 50,
-    info: {
-      Title: `Invoice ${data.reference}`,
-      Author: "NLSC — Nile Logic & Secure Cloud Ltd",
-      Subject: "Bundle Activation Invoice",
-    },
-  });
+export function buildInvoicePdf(data: InvoiceData): Promise<Buffer> {
+  return new Promise((resolve, reject) => {
+    const doc = new PDFDocument({
+      size: "A4",
+      margin: 50,
+      info: {
+        Title: `Invoice ${data.reference}`,
+        Author: "NLSC — Nile Logic & Secure Cloud Ltd",
+        Subject: "Bundle Activation Invoice",
+      },
+    });
 
-  const chunks: Buffer[] = [];
-  doc.on("data", (chunk) => chunks.push(chunk));
+    const chunks: Buffer[] = [];
+    doc.on("data", (chunk: Buffer) => chunks.push(chunk));
+    doc.on("end", () => resolve(Buffer.concat(chunks)));
+    doc.on("error", reject);
 
-  const pageWidth = doc.page.width - 50 * 2;
-  const rightX = doc.page.width - 50;
+    const pageWidth = doc.page.width - 50 * 2;
+    const rightX = doc.page.width - 50;
 
   // ── colours ──
   const ink = "#1a1a1a";
@@ -252,7 +255,6 @@ export function buildInvoicePdf(data: InvoiceData): Buffer {
     .font("Helvetica-Bold")
     .text("Thank you for your payment.", 50, termsY + 52, { width: pageWidth, align: "center" });
 
-  doc.end();
-
-  return Buffer.concat(chunks);
+    doc.end();
+  });
 }

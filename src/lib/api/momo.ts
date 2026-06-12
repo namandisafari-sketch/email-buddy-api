@@ -289,7 +289,7 @@ async function sendActivationEmail(to: string, creds: ApiCredentials, invoice: I
   const html = buildActivationEmailHtml(creds);
   const envContent = buildEnvFile(creds);
   const jsonContent = buildCredentialsJson(creds);
-  const pdfBuffer = buildInvoicePdf(invoice);
+  const pdfBuffer = await buildInvoicePdf(invoice);
 
   await resend.emails.send({
     from: config.emailFrom,
