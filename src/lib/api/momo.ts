@@ -247,7 +247,7 @@ export function buildActivationEmailHtml(creds: ApiCredentials): string {
 </html>`;
 }
 
-function buildEnvFile(creds: ApiCredentials): string {
+export function buildEnvFile(creds: ApiCredentials): string {
   return `# NLSC API Credentials — ${creds.reference}
 # Delivered to ${creds.orgName}
 # Keep this file secure. Do not share or commit to version control.
@@ -274,7 +274,7 @@ ORGANISATION=${creds.orgName}
 `;
 }
 
-function buildCredentialsJson(creds: ApiCredentials): string {
+export function buildCredentialsJson(creds: ApiCredentials): string {
   return JSON.stringify(creds, null, 2);
 }
 
