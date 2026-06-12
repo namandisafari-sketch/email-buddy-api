@@ -154,6 +154,44 @@ export const PAYMENT_METHODS = [
   },
 ];
 
+export const MOMO_INFO = {
+  number: "+256 700 000 000",
+  name: "NLSC LTD — Mobile Money",
+  network: "MTN / Airtel",
+  note: "Send exactly USh 680,000 and include your order reference as the payment reason.",
+};
+
+export const API_DELIVERY = {
+  smtp: {
+    server: "mail.nlscug.com",
+    port: 587,
+    security: "STARTTLS",
+    authMethod: "CRAM-MD5",
+  },
+  emailApi: {
+    baseUrl: "https://api.nlscug.com/v1",
+    endpoints: {
+      sendTransactional: "POST /email/send",
+      sendBulk: "POST /email/bulk",
+      webhooks: "POST /webhooks/email",
+    },
+  },
+  whatsappApi: {
+    baseUrl: "https://evo.nlscug.com",
+    endpoints: {
+      sendText: "POST /message/sendText/{instance}",
+      sendMedia: "POST /message/sendMedia/{instance}",
+      createInstance: "POST /instance/create",
+      webhook: "POST /webhook/set/{instance}",
+    },
+  },
+  support: {
+    email: "api@nlscug.com",
+    phone: "0326 338 014",
+    docs: "https://docs.nlscug.com",
+  },
+};
+
 export const NAV = [
   { to: "/services", label: "Services" },
   { to: "/process", label: "Process" },

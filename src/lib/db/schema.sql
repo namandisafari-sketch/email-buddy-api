@@ -34,3 +34,28 @@ create trigger trg_momo_payments_updated_at
   before update on momo_payments
   for each row
   execute function update_updated_at();
+
+-- Activations table — stores completed activations with delivered API credentials
+create table if not exists activations (
+  id              uuid primary key default gen_random_uuid(),
+  reference       text not null unique,
+  org_name        text not null,
+  contact_email   text not null,
+  contact_phone   text not null,
+  token           text not null,
+  smtp_password   text not null,
+  status          text not null default 'activated'
+                  check (status in ('activated','revoked')),
+  proof_text      text,
+  created_at      timestamptz not null default now(),
+  updated_at      timestamptz not null default now()
+);
+
+create index if not exists idx_activations_reference on activations(reference);
+create index if not exists idx_activations_contact_email on activations(contact_email);
+
+drop trigger if exists trg_activations_updated_at on activations;
+create trigger trg_activations_updated_at
+  before update on activations
+  for each row
+  execute function update_updated_at();
