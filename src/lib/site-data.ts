@@ -243,6 +243,7 @@ export const NAV = [
   { to: "/who-we-are", label: "Who we are" },
   { to: "/policy", label: "Policy & Law" },
   { to: "/track-order", label: "Track order" },
+  { to: "/account", label: "My Account" },
 ] as const;
 
 export type Service = {

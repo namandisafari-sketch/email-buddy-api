@@ -58,6 +58,12 @@ function Header() {
 
         <div className="flex items-center gap-3">
           <Link
+            to="/login"
+            className="hidden text-sm text-muted-foreground transition-colors hover:text-foreground sm:inline-flex"
+          >
+            Sign in
+          </Link>
+          <Link
             to="/services"
             className="hidden rounded-md bg-ink px-4 py-2 text-sm font-medium text-ink-foreground transition-opacity hover:opacity-90 sm:inline-flex"
           >
