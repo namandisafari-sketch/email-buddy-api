@@ -40,7 +40,13 @@ function DomainsPage() {
   const totalPrice = domainPrice * years;
 
   async function handleCheck() {
-    const clean = searchQuery.trim().toLowerCase().replace(/[^a-z0-9-]/g, "");
+    let name = searchQuery.trim().toLowerCase().replace(/[^a-z0-9-.]/g, "");
+    for (const t of DOMAIN_TLDS) {
+      if (name.endsWith(t.tld)) {
+        name = name.slice(0, -t.tld.length).replace(/\.$/, "");
+      }
+    }
+    const clean = name.replace(/[^a-z0-9-]/g, "");
     if (!clean) return;
     setChecking(true);
     setCheckError("");
@@ -49,8 +55,9 @@ function DomainsPage() {
     try {
       const result = await checkDomainAvailability({ data: { domain: clean, tld: selectedTld } });
       setAvailability(result);
-    } catch {
-      setCheckError("Failed to check availability. Please try again.");
+    } catch (err) {
+      console.error("[Domain] check failed:", err);
+      setCheckError(String(err instanceof Error ? err.message : err));
     } finally {
       setChecking(false);
     }

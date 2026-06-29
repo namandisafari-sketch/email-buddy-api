@@ -122,13 +122,8 @@ export const checkDomainAvailability = createServerFn({ method: "POST" })
     }),
   )
   .handler(async ({ data }) => {
-    const taken = Math.random() > 0.3;
-    await new Promise((r) => setTimeout(r, 600));
-    return {
-      available: taken,
-      domain: data.domain,
-      tld: data.tld,
-    };
+    const available = Math.random() > 0.3;
+    return { available, domain: data.domain, tld: data.tld };
   });
 
 export const registerDomain = createServerFn({ method: "POST" })
