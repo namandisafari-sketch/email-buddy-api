@@ -59,3 +59,31 @@ create trigger trg_activations_updated_at
   before update on activations
   for each row
   execute function update_updated_at();
+
+-- Domain orders table — tracks domain registration purchases
+create table if not exists domain_orders (
+  id              uuid primary key default gen_random_uuid(),
+  reference       text not null unique,
+  domain          text not null,
+  tld             text not null,
+  years           integer not null default 1,
+  total           numeric(12,2) not null,
+  currency        text not null default 'UGX',
+  contact_email   text not null,
+  contact_phone   text not null,
+  org_name        text not null,
+  status          text not null default 'pending'
+                  check (status in ('pending','processing','active','failed','cancelled')),
+  created_at      timestamptz not null default now(),
+  updated_at      timestamptz not null default now()
+);
+
+create index if not exists idx_domain_orders_reference on domain_orders(reference);
+create index if not exists idx_domain_orders_contact_email on domain_orders(contact_email);
+create index if not exists idx_domain_orders_status on domain_orders(status);
+
+drop trigger if exists trg_domain_orders_updated_at on domain_orders;
+create trigger trg_domain_orders_updated_at
+  before update on domain_orders
+  for each row
+  execute function update_updated_at();

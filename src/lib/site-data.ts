@@ -192,12 +192,50 @@ export const API_DELIVERY = {
   },
 };
 
+export const DOMAIN_TLDS = [
+  { tld: ".com", price: 80000, currency: "UGX", note: "Most popular — recommended for businesses" },
+  { tld: ".org", price: 70000, currency: "UGX", note: "Ideal for organisations & non-profits" },
+  { tld: ".net", price: 75000, currency: "UGX", note: "Perfect for network & tech companies" },
+  { tld: ".co.ug", price: 90000, currency: "UGX", note: "Uganda country code — local presence" },
+  { tld: ".ug", price: 100000, currency: "UGX", note: "Uganda domain — short & authoritative" },
+  { tld: ".io", price: 120000, currency: "UGX", note: "Popular with SaaS & tech startups" },
+] as const;
+
+export const DOMAIN_FEATURES = [
+  "Free DNS management — A, CNAME, MX, TXT records",
+  "Free WHOIS privacy protection",
+  "Auto-renewal with 30-day grace period",
+  "Registry lock & transfer protection",
+  "DNSSEC security extension support",
+  "Instant DKIM, SPF & DMARC alignment when used with NLSC Email API",
+] as const;
+
+export const DOMAIN_FAQ = [
+  {
+    q: "How long does domain registration take?",
+    a: "Most domains activate within minutes of payment confirmation. Country-code TLDs (.ug, .co.ug) may take up to 24 hours due to registry processing.",
+  },
+  {
+    q: "Can I transfer an existing domain to NLSC?",
+    a: "Yes. We accept domain transfers from any registrar. The transfer extends your registration by one year and takes 5–7 days to complete.",
+  },
+  {
+    q: "What happens if I don't renew?",
+    a: "There is a 30-day grace period after expiry. After that, the domain enters a 30-day redemption period with a recovery fee. Unrecovered domains are released.",
+  },
+  {
+    q: "Do I need an NLSC license to buy a domain?",
+    a: "No. You can register a domain independently. However, domains purchased through NLSC are pre-configured for instant DKIM, SPF and DMARC when paired with an Email Automation license.",
+  },
+];
+
 export const NAV = [
   { to: "/services", label: "Services" },
   { to: "/process", label: "Process" },
   { to: "/docs", label: "API Docs" },
   { to: "/nlscevo", label: "WhatsApp API" },
   { to: "/migration", label: "Migrate" },
+  { to: "/domains", label: "Domains" },
   { to: "/cart", label: "Cart" },
   { to: "/billing", label: "Billing" },
   { to: "/license", label: "License" },
