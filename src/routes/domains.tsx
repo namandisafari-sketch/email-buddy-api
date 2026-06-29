@@ -83,8 +83,9 @@ function DomainsPage() {
       if (result.success) {
         setOrderResult(result.order);
       }
-    } catch {
-      setOrderError("Failed to submit domain order. Please try again.");
+    } catch (err) {
+      console.error("[Domain] register failed:", err);
+      setOrderError(String(err instanceof Error ? err.message : err));
     } finally {
       setOrdering(false);
     }

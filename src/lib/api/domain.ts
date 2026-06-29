@@ -97,21 +97,25 @@ function buildOrderConfirmationHtml(order: DomainOrderResult, contactEmail: stri
 </html>`;
 }
 
-async function sendOrderConfirmationEmail(to: string, order: DomainOrderResult) {
+async function sendDomainEmail(to: string, subject: string, html: string, attachments?: { filename: string; content: string }[]) {
   const config = getServerConfig();
-  if (!config.resendApiKey) {
-    console.warn("[Resend] No RESEND_API_KEY set — skipping domain confirmation email");
+  if (!config.domainResendApiKey) {
+    console.warn("[Domain Email] No domain Resend key set — skipping email");
     return;
   }
-  const resend = new Resend(config.resendApiKey);
-  const html = buildOrderConfirmationHtml(order, to);
-  await resend.emails.send({
-    from: config.emailFrom,
-    to,
-    subject: `Domain order received — ${order.domain}${order.tld} — Reference ${order.reference}`,
-    html,
-  });
-  console.log(`[Resend] Domain order confirmation sent to ${to} for ${order.domain}${order.tld}`);
+  try {
+    const resend = new Resend(config.domainResendApiKey);
+    await resend.emails.send({
+      from: config.domainEmailFrom,
+      to,
+      subject,
+      html,
+      attachments,
+    });
+    console.log(`[Domain Email] Sent "${subject}" to ${to}`);
+  } catch (err) {
+    console.error(`[Domain Email] Failed to send to ${to}:`, err);
+  }
 }
 
 export const checkDomainAvailability = createServerFn({ method: "POST" })
@@ -174,22 +178,26 @@ export const registerDomain = createServerFn({ method: "POST" })
       },
     ];
 
-    await sendOrderConfirmationEmail(data.contactEmail, order);
-    const pdfBuffers = await Promise.all(invoices.map(buildInvoicePdf));
+    const orderHtml = buildOrderConfirmationHtml(order, data.contactEmail);
+    await sendDomainEmail(
+      data.contactEmail,
+      `Domain order received — ${data.domain}${data.tld} — Reference ${reference}`,
+      orderHtml,
+    );
 
-    const config = getServerConfig();
-    if (config.resendApiKey) {
-      const resend = new Resend(config.resendApiKey);
-      await resend.emails.send({
-        from: config.emailFrom,
-        to: data.contactEmail,
-        subject: `Invoice — Domain Registration ${data.domain}${data.tld} — ${reference}`,
-        html: `<p>Your invoice for domain registration is attached.</p>`,
-        attachments: pdfBuffers.map((buf, i) => ({
+    try {
+      const pdfBuffers = await Promise.all(invoices.map(buildInvoicePdf));
+      await sendDomainEmail(
+        data.contactEmail,
+        `Invoice — Domain Registration ${data.domain}${data.tld} — ${reference}`,
+        `<p>Your invoice for domain registration is attached.</p>`,
+        pdfBuffers.map((buf, i) => ({
           filename: `nlsc-invoice-${invoices[i].reference.toLowerCase()}.pdf`,
           content: buf.toString("base64"),
         })),
-      });
+      );
+    } catch (err) {
+      console.error("[Domain] PDF generation failed:", err);
     }
 
     return { success: true, order };
