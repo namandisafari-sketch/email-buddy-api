@@ -68,6 +68,7 @@ function DomainsPage() {
     setOrdering(true);
     setOrderError("");
     try {
+      const sessionToken = localStorage.getItem("nlsc_session");
       const result = await registerDomain({
         data: {
           domain: availability.domain,
@@ -78,6 +79,7 @@ function DomainsPage() {
           contactEmail,
           contactPhone,
           orgName,
+          sessionToken: sessionToken ?? undefined,
         },
       });
       if (result.success) {

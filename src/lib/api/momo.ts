@@ -1,26 +1,12 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import postgres from "postgres";
 import { Resend } from "resend";
+import { supabaseAdmin } from "../../integrations/supabase/client.server";
 import { getServerConfig } from "../config.server";
 import { buildInvoicePdf, type InvoiceData } from "./invoice";
 
 function generateReference() {
   return "NLSC-" + crypto.randomUUID().slice(0, 8).toUpperCase();
-}
-
-async function withDb<T>(fn: (sql: postgres.Sql) => Promise<T>): Promise<T> {
-  const config = getServerConfig();
-  if (!config.databaseUrl) {
-    console.warn("[MTN MoMo] No DATABASE_URL set — skipping DB");
-    return undefined as T;
-  }
-  const sql = postgres(config.databaseUrl, { max: 1 });
-  try {
-    return await fn(sql);
-  } finally {
-    await sql.end();
-  }
 }
 
 export type ApiCredentials = {
@@ -384,10 +370,23 @@ export const submitMomoProof = createServerFn({ method: "POST" })
       contactEmail: z.string().email(),
       contactPhone: z.string().min(1),
       orgName: z.string().min(1),
+      sessionToken: z.string().optional(),
     }),
   )
   .handler(async ({ data }) => {
     console.log("[submitMomoProof] Starting submission for", data.contactEmail);
+
+    let customerId: string | undefined;
+    if (data.sessionToken) {
+      const { data: session } = await supabaseAdmin
+        .from("customer_sessions")
+        .select("customer_id")
+        .eq("token", data.sessionToken)
+        .gt("expires_at", new Date().toISOString())
+        .single();
+      if (session) customerId = session.customer_id;
+    }
+
     try {
     const ref = data.reference;
     const token = generateToken();
@@ -418,12 +417,23 @@ export const submitMomoProof = createServerFn({ method: "POST" })
       },
     };
 
-    await withDb(async (sql) => {
-      await sql`
-        insert into activations (reference, org_name, contact_email, contact_phone, token, smtp_password, status, proof_text)
-        values (${ref}, ${data.orgName}, ${data.contactEmail}, ${data.contactPhone}, ${token}, ${smtpPassword}, 'activated', ${data.proofText})
-      `;
-    });
+    const { error: insertError } = await supabaseAdmin
+      .from("activations")
+      .insert({
+        reference: ref,
+        org_name: data.orgName,
+        contact_email: data.contactEmail,
+        contact_phone: data.contactPhone,
+        token,
+        smtp_password: smtpPassword,
+        status: "activated",
+        proof_text: data.proofText,
+        customer_id: customerId ?? null,
+      });
+
+    if (insertError) {
+      console.error("[submitMomoProof] DB insert failed:", insertError.message);
+    }
 
     const invoices: InvoiceData[] = [
       {
@@ -481,12 +491,21 @@ export const requestMomoPayment = createServerFn({ method: "POST" })
 
     const errorMessage = "MTN network currently not fine";
 
-    await withDb(async (sql) => {
-      await sql`
-        insert into momo_payments (reference, phone, network, amount, currency, status, error_message)
-        values (${reference}, ${data.phone}, ${data.network}, ${data.amount}, 'UGX', 'failed', ${errorMessage})
-      `;
-    });
+    const { error: insertError } = await supabaseAdmin
+      .from("momo_payments")
+      .insert({
+        reference,
+        phone: data.phone,
+        network: data.network,
+        amount: data.amount,
+        currency: "UGX",
+        status: "failed",
+        error_message: errorMessage,
+      });
+
+    if (insertError) {
+      console.error("[requestMomoPayment] DB insert failed:", insertError.message);
+    }
 
     return {
       success: false,

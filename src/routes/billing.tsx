@@ -87,6 +87,7 @@ function BillingPage() {
     setProofLoading(true);
     setProofError("");
     try {
+      const sessionToken = localStorage.getItem("nlsc_session");
       const result = await submitMomoProof({
         data: {
           reference: proofRef || ref,
@@ -94,6 +95,7 @@ function BillingPage() {
           contactEmail,
           contactPhone,
           orgName,
+          sessionToken: sessionToken ?? undefined,
         },
       });
       if (result.success) {

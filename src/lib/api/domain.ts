@@ -1,26 +1,12 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import postgres from "postgres";
 import { Resend } from "resend";
+import { supabaseAdmin } from "../../integrations/supabase/client.server";
 import { getServerConfig } from "../config.server";
 import { buildInvoicePdf, type InvoiceData } from "./invoice";
 
 function generateReference() {
   return "DOM-" + crypto.randomUUID().slice(0, 8).toUpperCase();
-}
-
-async function withDb<T>(fn: (sql: postgres.Sql) => Promise<T>): Promise<T> {
-  const config = getServerConfig();
-  if (!config.databaseUrl) {
-    console.warn("[Domain] No DATABASE_URL set — skipping DB");
-    return undefined as T;
-  }
-  const sql = postgres(config.databaseUrl, { max: 1 });
-  try {
-    return await fn(sql);
-  } finally {
-    await sql.end();
-  }
 }
 
 export type DomainOrderResult = {
@@ -141,18 +127,43 @@ export const registerDomain = createServerFn({ method: "POST" })
       contactEmail: z.string().email(),
       contactPhone: z.string().min(1),
       orgName: z.string().min(1),
+      sessionToken: z.string().optional(),
     }),
   )
   .handler(async ({ data }) => {
     const reference = generateReference();
     console.log(`[Domain] Order received: ${data.domain}${data.tld} for ${data.years} year(s), total ${data.currency} ${data.total}`);
 
-    await withDb(async (sql) => {
-      await sql`
-        insert into domain_orders (reference, domain, tld, years, total, currency, contact_email, contact_phone, org_name, status)
-        values (${reference}, ${data.domain}, ${data.tld}, ${data.years}, ${data.total}, ${data.currency}, ${data.contactEmail}, ${data.contactPhone}, ${data.orgName}, 'pending')
-      `;
-    });
+    let customerId: string | undefined;
+    if (data.sessionToken) {
+      const { data: session } = await supabaseAdmin
+        .from("customer_sessions")
+        .select("customer_id")
+        .eq("token", data.sessionToken)
+        .gt("expires_at", new Date().toISOString())
+        .single();
+      if (session) customerId = session.customer_id;
+    }
+
+    const { error: insertError } = await supabaseAdmin
+      .from("domain_orders")
+      .insert({
+        reference,
+        domain: data.domain,
+        tld: data.tld,
+        years: data.years,
+        total: data.total,
+        currency: data.currency,
+        contact_email: data.contactEmail,
+        contact_phone: data.contactPhone,
+        org_name: data.orgName,
+        status: "pending",
+        customer_id: customerId ?? null,
+      });
+
+    if (insertError) {
+      console.error("[Domain] DB insert failed:", insertError.message);
+    }
 
     const order: DomainOrderResult = {
       reference,

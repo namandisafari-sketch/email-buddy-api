@@ -11,17 +11,23 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WhoWeAreRouteImport } from './routes/who-we-are'
 import { Route as TrackOrderRouteImport } from './routes/track-order'
+import { Route as SubdomainsRouteImport } from './routes/subdomains'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as RegisterRouteImport } from './routes/register'
 import { Route as ProcessRouteImport } from './routes/process'
 import { Route as PolicyRouteImport } from './routes/policy'
+import { Route as NsisRouteImport } from './routes/nsis'
 import { Route as NlscevoRouteImport } from './routes/nlscevo'
 import { Route as MigrationRouteImport } from './routes/migration'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as LicenseRouteImport } from './routes/license'
+import { Route as DomainsRouteImport } from './routes/domains'
 import { Route as DocsRouteImport } from './routes/docs'
 import { Route as CertificationsRouteImport } from './routes/certifications'
 import { Route as CartRouteImport } from './routes/cart'
 import { Route as BillingRouteImport } from './routes/billing'
+import { Route as AccountRouteImport } from './routes/account'
 import { Route as IndexRouteImport } from './routes/index'
 
 const WhoWeAreRoute = WhoWeAreRouteImport.update({
@@ -34,6 +40,11 @@ const TrackOrderRoute = TrackOrderRouteImport.update({
   path: '/track-order',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SubdomainsRoute = SubdomainsRouteImport.update({
+  id: '/subdomains',
+  path: '/subdomains',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
@@ -42,6 +53,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProcessRoute = ProcessRouteImport.update({
@@ -54,6 +70,11 @@ const PolicyRoute = PolicyRouteImport.update({
   path: '/policy',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NsisRoute = NsisRouteImport.update({
+  id: '/nsis',
+  path: '/nsis',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NlscevoRoute = NlscevoRouteImport.update({
   id: '/nlscevo',
   path: '/nlscevo',
@@ -64,9 +85,19 @@ const MigrationRoute = MigrationRouteImport.update({
   path: '/migration',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LicenseRoute = LicenseRouteImport.update({
   id: '/license',
   path: '/license',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DomainsRoute = DomainsRouteImport.update({
+  id: '/domains',
+  path: '/domains',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DocsRoute = DocsRouteImport.update({
@@ -89,6 +120,11 @@ const BillingRoute = BillingRouteImport.update({
   path: '/billing',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AccountRoute = AccountRouteImport.update({
+  id: '/account',
+  path: '/account',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -97,50 +133,68 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/account': typeof AccountRoute
   '/billing': typeof BillingRoute
   '/cart': typeof CartRoute
   '/certifications': typeof CertificationsRoute
   '/docs': typeof DocsRoute
+  '/domains': typeof DomainsRoute
   '/license': typeof LicenseRoute
+  '/login': typeof LoginRoute
   '/migration': typeof MigrationRoute
   '/nlscevo': typeof NlscevoRoute
+  '/nsis': typeof NsisRoute
   '/policy': typeof PolicyRoute
   '/process': typeof ProcessRoute
+  '/register': typeof RegisterRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/subdomains': typeof SubdomainsRoute
   '/track-order': typeof TrackOrderRoute
   '/who-we-are': typeof WhoWeAreRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/account': typeof AccountRoute
   '/billing': typeof BillingRoute
   '/cart': typeof CartRoute
   '/certifications': typeof CertificationsRoute
   '/docs': typeof DocsRoute
+  '/domains': typeof DomainsRoute
   '/license': typeof LicenseRoute
+  '/login': typeof LoginRoute
   '/migration': typeof MigrationRoute
   '/nlscevo': typeof NlscevoRoute
+  '/nsis': typeof NsisRoute
   '/policy': typeof PolicyRoute
   '/process': typeof ProcessRoute
+  '/register': typeof RegisterRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/subdomains': typeof SubdomainsRoute
   '/track-order': typeof TrackOrderRoute
   '/who-we-are': typeof WhoWeAreRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/account': typeof AccountRoute
   '/billing': typeof BillingRoute
   '/cart': typeof CartRoute
   '/certifications': typeof CertificationsRoute
   '/docs': typeof DocsRoute
+  '/domains': typeof DomainsRoute
   '/license': typeof LicenseRoute
+  '/login': typeof LoginRoute
   '/migration': typeof MigrationRoute
   '/nlscevo': typeof NlscevoRoute
+  '/nsis': typeof NsisRoute
   '/policy': typeof PolicyRoute
   '/process': typeof ProcessRoute
+  '/register': typeof RegisterRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/subdomains': typeof SubdomainsRoute
   '/track-order': typeof TrackOrderRoute
   '/who-we-are': typeof WhoWeAreRoute
 }
@@ -148,66 +202,90 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/account'
     | '/billing'
     | '/cart'
     | '/certifications'
     | '/docs'
+    | '/domains'
     | '/license'
+    | '/login'
     | '/migration'
     | '/nlscevo'
+    | '/nsis'
     | '/policy'
     | '/process'
+    | '/register'
     | '/services'
     | '/sitemap.xml'
+    | '/subdomains'
     | '/track-order'
     | '/who-we-are'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/account'
     | '/billing'
     | '/cart'
     | '/certifications'
     | '/docs'
+    | '/domains'
     | '/license'
+    | '/login'
     | '/migration'
     | '/nlscevo'
+    | '/nsis'
     | '/policy'
     | '/process'
+    | '/register'
     | '/services'
     | '/sitemap.xml'
+    | '/subdomains'
     | '/track-order'
     | '/who-we-are'
   id:
     | '__root__'
     | '/'
+    | '/account'
     | '/billing'
     | '/cart'
     | '/certifications'
     | '/docs'
+    | '/domains'
     | '/license'
+    | '/login'
     | '/migration'
     | '/nlscevo'
+    | '/nsis'
     | '/policy'
     | '/process'
+    | '/register'
     | '/services'
     | '/sitemap.xml'
+    | '/subdomains'
     | '/track-order'
     | '/who-we-are'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AccountRoute: typeof AccountRoute
   BillingRoute: typeof BillingRoute
   CartRoute: typeof CartRoute
   CertificationsRoute: typeof CertificationsRoute
   DocsRoute: typeof DocsRoute
+  DomainsRoute: typeof DomainsRoute
   LicenseRoute: typeof LicenseRoute
+  LoginRoute: typeof LoginRoute
   MigrationRoute: typeof MigrationRoute
   NlscevoRoute: typeof NlscevoRoute
+  NsisRoute: typeof NsisRoute
   PolicyRoute: typeof PolicyRoute
   ProcessRoute: typeof ProcessRoute
+  RegisterRoute: typeof RegisterRoute
   ServicesRoute: typeof ServicesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  SubdomainsRoute: typeof SubdomainsRoute
   TrackOrderRoute: typeof TrackOrderRoute
   WhoWeAreRoute: typeof WhoWeAreRoute
 }
@@ -228,6 +306,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TrackOrderRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/subdomains': {
+      id: '/subdomains'
+      path: '/subdomains'
+      fullPath: '/subdomains'
+      preLoaderRoute: typeof SubdomainsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
@@ -240,6 +325,13 @@ declare module '@tanstack/react-router' {
       path: '/services'
       fullPath: '/services'
       preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/process': {
@@ -256,6 +348,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PolicyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/nsis': {
+      id: '/nsis'
+      path: '/nsis'
+      fullPath: '/nsis'
+      preLoaderRoute: typeof NsisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/nlscevo': {
       id: '/nlscevo'
       path: '/nlscevo'
@@ -270,11 +369,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MigrationRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/license': {
       id: '/license'
       path: '/license'
       fullPath: '/license'
       preLoaderRoute: typeof LicenseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/domains': {
+      id: '/domains'
+      path: '/domains'
+      fullPath: '/domains'
+      preLoaderRoute: typeof DomainsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/docs': {
@@ -305,6 +418,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BillingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/account': {
+      id: '/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AccountRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -317,17 +437,23 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AccountRoute: AccountRoute,
   BillingRoute: BillingRoute,
   CartRoute: CartRoute,
   CertificationsRoute: CertificationsRoute,
   DocsRoute: DocsRoute,
+  DomainsRoute: DomainsRoute,
   LicenseRoute: LicenseRoute,
+  LoginRoute: LoginRoute,
   MigrationRoute: MigrationRoute,
   NlscevoRoute: NlscevoRoute,
+  NsisRoute: NsisRoute,
   PolicyRoute: PolicyRoute,
   ProcessRoute: ProcessRoute,
+  RegisterRoute: RegisterRoute,
   ServicesRoute: ServicesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  SubdomainsRoute: SubdomainsRoute,
   TrackOrderRoute: TrackOrderRoute,
   WhoWeAreRoute: WhoWeAreRoute,
 }

@@ -192,6 +192,38 @@ export const API_DELIVERY = {
   },
 };
 
+export const SUBDOMAIN_LICENSE = {
+  price: 100_000,
+  currency: "UGX",
+  name: "Subdomain Security License",
+  description:
+    "Lifetime license to protect unlimited subdomains under your domain with quantum-grade security — auto-SSL, DNSSEC, DDoS mitigation, and post-quantum signatures.",
+  features: [
+    "Unlimited subdomain configuration under your domain",
+    "Auto-provisioned SSL certificates for every subdomain",
+    "DNSSEC signing & DDoS protection included",
+    "Post-quantum cryptographic signatures",
+    "Full DNS management — A, CNAME, MX, TXT records",
+    "Lifetime license — no renewals, no expiry",
+  ],
+};
+
+export const NSIS_LICENSE = {
+  price: 300_000,
+  currency: "UGX",
+  name: "NSIS Installation License",
+  description:
+    "Lifetime license granting your organisation the rights to create and distribute professional .exe software installers using NSIS (Nullsoft Scriptable Install System) technology.",
+  features: [
+    "Rights to create and distribute .exe installers",
+    "Custom installer branding & scripting",
+    "Silent install, upgrade & uninstall support",
+    "Code signing certificate integration ready",
+    "Cross-platform installer builds",
+    "Lifetime license — no renewals, no expiry",
+  ],
+};
+
 export const DOMAIN_TLDS = [
   { tld: ".com", price: 80000, currency: "UGX", note: "Most popular — recommended for businesses" },
   { tld: ".org", price: 70000, currency: "UGX", note: "Ideal for organisations & non-profits" },
@@ -235,6 +267,8 @@ export const NAV = [
   { to: "/docs", label: "API Docs" },
   { to: "/nlscevo", label: "WhatsApp API" },
   { to: "/migration", label: "Migrate" },
+  { to: "/subdomains", label: "Subdomain Security" },
+  { to: "/nsis", label: "NSIS Installer" },
   { to: "/domains", label: "Domains" },
   { to: "/cart", label: "Cart" },
   { to: "/billing", label: "Billing" },
