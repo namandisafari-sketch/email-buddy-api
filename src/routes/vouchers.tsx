@@ -21,12 +21,54 @@ function generateCode(prefix: string, index: number, length: number): string {
   for (let i = 0; i < codeLen; i++) {
     code += chars[Math.floor(Math.random() * chars.length)];
   }
-  const padded = String(index + 1).padStart(String(length).length, "0");
   return prefix ? `${prefix}-${code}` : code;
 }
 
 function formatDate(date: Date): string {
   return date.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+}
+
+function voucherHtml(hotspotName: string, packageName: string, price: string, duration: string, today: string, sheets: { code: string; index: number }[][]): string {
+  const sheetHtml = sheets.map((sheet) => `
+    <div class="sheet">
+      ${sheet.map((v) => `
+        <div class="card">
+          <div class="card-header">
+            <span class="hotspot-name">${hotspotName}</span>
+            <span class="card-num">${v.index}</span>
+          </div>
+          <div class="card-code">${v.code}</div>
+          <div class="card-body">
+            <div class="card-package">${packageName}</div>
+            <div class="card-price">UGX ${Number(price).toLocaleString()}</div>
+            <div class="card-duration">${duration}</div>
+          </div>
+          <div class="card-footer">Issued ${today}<br/>Powered by NLSC</div>
+        </div>
+      `).join("")}
+    </div>
+  `).join("");
+
+  return `<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"/><title>NLSC Vouchers</title>
+<style>
+  @page { margin: 8mm; size: A4; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .sheet { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6mm; page-break-after: always; padding: 0; }
+  .card { border: 2px solid #374151; border-radius: 6px; padding: 5mm; display: flex; flex-direction: column; min-height: 50mm; }
+  .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2mm; }
+  .hotspot-name { font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #9ca3af; }
+  .card-num { font-size: 8px; font-family: monospace; background: #f3f4f6; padding: 1px 4px; border-radius: 3px; color: #6b7280; }
+  .card-code { font-size: 16px; font-weight: 700; letter-spacing: 1px; text-align: center; color: #111827; margin: 3mm 0; font-family: monospace; }
+  .card-body { text-align: center; flex: 1; }
+  .card-package { font-size: 11px; font-weight: 600; color: #1f2937; }
+  .card-price { font-size: 14px; font-weight: 700; color: #111827; margin-top: 1mm; }
+  .card-duration { font-size: 9px; color: #6b7280; margin-top: 0.5mm; }
+  .card-footer { text-align: center; font-size: 7px; color: #9ca3af; margin-top: auto; padding-top: 2mm; line-height: 1.4; }
+</style></head>
+<body>${sheetHtml}</body></html>`;
 }
 
 function VouchersPage() {
@@ -60,8 +102,14 @@ function VouchersPage() {
   }, []);
 
   const handlePrint = useCallback(() => {
-    window.print();
-  }, []);
+    const w = window.open("", "_blank");
+    if (!w) return;
+    w.document.write(voucherHtml(hotspotName, packageName, price, duration, today, sheets));
+    w.document.close();
+    w.focus();
+    w.onafterprint = () => w.close();
+    setTimeout(() => { w.print(); }, 300);
+  }, [hotspotName, packageName, price, duration, today, sheets]);
 
   return (
     <SiteLayout>
@@ -196,27 +244,7 @@ function VouchersPage() {
         </div>
       </section>
 
-      <style>{`
-        @media print {
-          @page { margin: 10mm; size: A4; }
-          body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-          header, nav, footer, .no-print { display: none !important; }
-          .voucher-sheet {
-            border: none !important;
-            box-shadow: none !important;
-            padding: 0 !important;
-            margin: 0 !important;
-            page-break-after: always;
-          }
-          .voucher-card {
-            border: 2px solid #374151 !important;
-            border-radius: 8px !important;
-            padding: 10px !important;
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
-          }
-        }
-      `}</style>
+
     </SiteLayout>
   );
 }
