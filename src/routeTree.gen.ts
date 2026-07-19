@@ -23,6 +23,7 @@ import { Route as NlscevoRouteImport } from './routes/nlscevo'
 import { Route as MigrationRouteImport } from './routes/migration'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as LicenseRouteImport } from './routes/license'
+import { Route as HotspotRouteImport } from './routes/hotspot'
 import { Route as DomainsRouteImport } from './routes/domains'
 import { Route as DocsRouteImport } from './routes/docs'
 import { Route as CertificationsRouteImport } from './routes/certifications'
@@ -101,6 +102,11 @@ const LicenseRoute = LicenseRouteImport.update({
   path: '/license',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HotspotRoute = HotspotRouteImport.update({
+  id: '/hotspot',
+  path: '/hotspot',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DomainsRoute = DomainsRouteImport.update({
   id: '/domains',
   path: '/domains',
@@ -145,6 +151,7 @@ export interface FileRoutesByFullPath {
   '/certifications': typeof CertificationsRoute
   '/docs': typeof DocsRoute
   '/domains': typeof DomainsRoute
+  '/hotspot': typeof HotspotRoute
   '/license': typeof LicenseRoute
   '/login': typeof LoginRoute
   '/migration': typeof MigrationRoute
@@ -168,6 +175,7 @@ export interface FileRoutesByTo {
   '/certifications': typeof CertificationsRoute
   '/docs': typeof DocsRoute
   '/domains': typeof DomainsRoute
+  '/hotspot': typeof HotspotRoute
   '/license': typeof LicenseRoute
   '/login': typeof LoginRoute
   '/migration': typeof MigrationRoute
@@ -192,6 +200,7 @@ export interface FileRoutesById {
   '/certifications': typeof CertificationsRoute
   '/docs': typeof DocsRoute
   '/domains': typeof DomainsRoute
+  '/hotspot': typeof HotspotRoute
   '/license': typeof LicenseRoute
   '/login': typeof LoginRoute
   '/migration': typeof MigrationRoute
@@ -217,6 +226,7 @@ export interface FileRouteTypes {
     | '/certifications'
     | '/docs'
     | '/domains'
+    | '/hotspot'
     | '/license'
     | '/login'
     | '/migration'
@@ -240,6 +250,7 @@ export interface FileRouteTypes {
     | '/certifications'
     | '/docs'
     | '/domains'
+    | '/hotspot'
     | '/license'
     | '/login'
     | '/migration'
@@ -263,6 +274,7 @@ export interface FileRouteTypes {
     | '/certifications'
     | '/docs'
     | '/domains'
+    | '/hotspot'
     | '/license'
     | '/login'
     | '/migration'
@@ -287,6 +299,7 @@ export interface RootRouteChildren {
   CertificationsRoute: typeof CertificationsRoute
   DocsRoute: typeof DocsRoute
   DomainsRoute: typeof DomainsRoute
+  HotspotRoute: typeof HotspotRoute
   LicenseRoute: typeof LicenseRoute
   LoginRoute: typeof LoginRoute
   MigrationRoute: typeof MigrationRoute
@@ -403,6 +416,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LicenseRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/hotspot': {
+      id: '/hotspot'
+      path: '/hotspot'
+      fullPath: '/hotspot'
+      preLoaderRoute: typeof HotspotRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/domains': {
       id: '/domains'
       path: '/domains'
@@ -463,6 +483,7 @@ const rootRouteChildren: RootRouteChildren = {
   CertificationsRoute: CertificationsRoute,
   DocsRoute: DocsRoute,
   DomainsRoute: DomainsRoute,
+  HotspotRoute: HotspotRoute,
   LicenseRoute: LicenseRoute,
   LoginRoute: LoginRoute,
   MigrationRoute: MigrationRoute,

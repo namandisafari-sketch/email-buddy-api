@@ -208,6 +208,22 @@ export const SUBDOMAIN_LICENSE = {
   ],
 };
 
+export const HOTSPOT_LICENSE = {
+  price: 200_000,
+  currency: "UGX",
+  name: "Hotspot License",
+  description:
+    "Lifetime license to validate WiFi hotspot vouchers through the NLSC cloud. Works with MikroTik, Ruijie, TP-Link, and any RADIUS-compatible router.",
+  features: [
+    "Create and manage voucher codes from your dashboard",
+    "Cloud-based voucher validation — no local server needed",
+    "Works with MikroTik hotspot via RADIUS or HTTP API",
+    "Real-time usage stats: active, used, expired vouchers",
+    "Self-service dashboard with code export",
+    "Lifetime license — no renewals, no expiry",
+  ],
+};
+
 export const NSIS_LICENSE = {
   price: 300_000,
   currency: "UGX",
@@ -269,6 +285,7 @@ export const NAV = [
   { to: "/migration", label: "Migrate" },
   { to: "/subdomains", label: "Subdomain Security" },
   { to: "/nsis", label: "NSIS Installer" },
+  { to: "/hotspot", label: "Hotspot" },
   { to: "/domains", label: "Domains" },
   { to: "/vouchers", label: "Free Vouchers" },
   { to: "/cart", label: "Cart" },
