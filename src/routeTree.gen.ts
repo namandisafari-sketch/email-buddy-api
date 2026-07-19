@@ -17,6 +17,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as ProcessRouteImport } from './routes/process'
+import { Route as PortalRouteImport } from './routes/portal'
 import { Route as PolicyRouteImport } from './routes/policy'
 import { Route as NsisRouteImport } from './routes/nsis'
 import { Route as NlscevoRouteImport } from './routes/nlscevo'
@@ -31,6 +32,8 @@ import { Route as CartRouteImport } from './routes/cart'
 import { Route as BillingRouteImport } from './routes/billing'
 import { Route as AccountRouteImport } from './routes/account'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiHotspotValidateRouteImport } from './routes/api.hotspot.validate'
+import { Route as ApiHotspotUseRouteImport } from './routes/api.hotspot.use'
 
 const WhoWeAreRoute = WhoWeAreRouteImport.update({
   id: '/who-we-are',
@@ -70,6 +73,11 @@ const RegisterRoute = RegisterRouteImport.update({
 const ProcessRoute = ProcessRouteImport.update({
   id: '/process',
   path: '/process',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortalRoute = PortalRouteImport.update({
+  id: '/portal',
+  path: '/portal',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PolicyRoute = PolicyRouteImport.update({
@@ -142,6 +150,16 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiHotspotValidateRoute = ApiHotspotValidateRouteImport.update({
+  id: '/api/hotspot/validate',
+  path: '/api/hotspot/validate',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiHotspotUseRoute = ApiHotspotUseRouteImport.update({
+  id: '/api/hotspot/use',
+  path: '/api/hotspot/use',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -158,6 +176,7 @@ export interface FileRoutesByFullPath {
   '/nlscevo': typeof NlscevoRoute
   '/nsis': typeof NsisRoute
   '/policy': typeof PolicyRoute
+  '/portal': typeof PortalRoute
   '/process': typeof ProcessRoute
   '/register': typeof RegisterRoute
   '/services': typeof ServicesRoute
@@ -166,6 +185,8 @@ export interface FileRoutesByFullPath {
   '/track-order': typeof TrackOrderRoute
   '/vouchers': typeof VouchersRoute
   '/who-we-are': typeof WhoWeAreRoute
+  '/api/hotspot/use': typeof ApiHotspotUseRoute
+  '/api/hotspot/validate': typeof ApiHotspotValidateRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -182,6 +203,7 @@ export interface FileRoutesByTo {
   '/nlscevo': typeof NlscevoRoute
   '/nsis': typeof NsisRoute
   '/policy': typeof PolicyRoute
+  '/portal': typeof PortalRoute
   '/process': typeof ProcessRoute
   '/register': typeof RegisterRoute
   '/services': typeof ServicesRoute
@@ -190,6 +212,8 @@ export interface FileRoutesByTo {
   '/track-order': typeof TrackOrderRoute
   '/vouchers': typeof VouchersRoute
   '/who-we-are': typeof WhoWeAreRoute
+  '/api/hotspot/use': typeof ApiHotspotUseRoute
+  '/api/hotspot/validate': typeof ApiHotspotValidateRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -207,6 +231,7 @@ export interface FileRoutesById {
   '/nlscevo': typeof NlscevoRoute
   '/nsis': typeof NsisRoute
   '/policy': typeof PolicyRoute
+  '/portal': typeof PortalRoute
   '/process': typeof ProcessRoute
   '/register': typeof RegisterRoute
   '/services': typeof ServicesRoute
@@ -215,6 +240,8 @@ export interface FileRoutesById {
   '/track-order': typeof TrackOrderRoute
   '/vouchers': typeof VouchersRoute
   '/who-we-are': typeof WhoWeAreRoute
+  '/api/hotspot/use': typeof ApiHotspotUseRoute
+  '/api/hotspot/validate': typeof ApiHotspotValidateRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -233,6 +260,7 @@ export interface FileRouteTypes {
     | '/nlscevo'
     | '/nsis'
     | '/policy'
+    | '/portal'
     | '/process'
     | '/register'
     | '/services'
@@ -241,6 +269,8 @@ export interface FileRouteTypes {
     | '/track-order'
     | '/vouchers'
     | '/who-we-are'
+    | '/api/hotspot/use'
+    | '/api/hotspot/validate'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -257,6 +287,7 @@ export interface FileRouteTypes {
     | '/nlscevo'
     | '/nsis'
     | '/policy'
+    | '/portal'
     | '/process'
     | '/register'
     | '/services'
@@ -265,6 +296,8 @@ export interface FileRouteTypes {
     | '/track-order'
     | '/vouchers'
     | '/who-we-are'
+    | '/api/hotspot/use'
+    | '/api/hotspot/validate'
   id:
     | '__root__'
     | '/'
@@ -281,6 +314,7 @@ export interface FileRouteTypes {
     | '/nlscevo'
     | '/nsis'
     | '/policy'
+    | '/portal'
     | '/process'
     | '/register'
     | '/services'
@@ -289,6 +323,8 @@ export interface FileRouteTypes {
     | '/track-order'
     | '/vouchers'
     | '/who-we-are'
+    | '/api/hotspot/use'
+    | '/api/hotspot/validate'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -306,6 +342,7 @@ export interface RootRouteChildren {
   NlscevoRoute: typeof NlscevoRoute
   NsisRoute: typeof NsisRoute
   PolicyRoute: typeof PolicyRoute
+  PortalRoute: typeof PortalRoute
   ProcessRoute: typeof ProcessRoute
   RegisterRoute: typeof RegisterRoute
   ServicesRoute: typeof ServicesRoute
@@ -314,6 +351,8 @@ export interface RootRouteChildren {
   TrackOrderRoute: typeof TrackOrderRoute
   VouchersRoute: typeof VouchersRoute
   WhoWeAreRoute: typeof WhoWeAreRoute
+  ApiHotspotUseRoute: typeof ApiHotspotUseRoute
+  ApiHotspotValidateRoute: typeof ApiHotspotValidateRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -372,6 +411,13 @@ declare module '@tanstack/react-router' {
       path: '/process'
       fullPath: '/process'
       preLoaderRoute: typeof ProcessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portal': {
+      id: '/portal'
+      path: '/portal'
+      fullPath: '/portal'
+      preLoaderRoute: typeof PortalRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/policy': {
@@ -472,6 +518,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/hotspot/validate': {
+      id: '/api/hotspot/validate'
+      path: '/api/hotspot/validate'
+      fullPath: '/api/hotspot/validate'
+      preLoaderRoute: typeof ApiHotspotValidateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/hotspot/use': {
+      id: '/api/hotspot/use'
+      path: '/api/hotspot/use'
+      fullPath: '/api/hotspot/use'
+      preLoaderRoute: typeof ApiHotspotUseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -490,6 +550,7 @@ const rootRouteChildren: RootRouteChildren = {
   NlscevoRoute: NlscevoRoute,
   NsisRoute: NsisRoute,
   PolicyRoute: PolicyRoute,
+  PortalRoute: PortalRoute,
   ProcessRoute: ProcessRoute,
   RegisterRoute: RegisterRoute,
   ServicesRoute: ServicesRoute,
@@ -498,6 +559,8 @@ const rootRouteChildren: RootRouteChildren = {
   TrackOrderRoute: TrackOrderRoute,
   VouchersRoute: VouchersRoute,
   WhoWeAreRoute: WhoWeAreRoute,
+  ApiHotspotUseRoute: ApiHotspotUseRoute,
+  ApiHotspotValidateRoute: ApiHotspotValidateRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
