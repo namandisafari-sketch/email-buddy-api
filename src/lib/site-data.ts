@@ -16,7 +16,7 @@ export const BRAND = {
 };
 
 export const CONTACT = {
-  phone: "0326 338 014",
+  phone: "0394568130",
   address: "1st Floor Lunna Plaza, 25, Entebbe Road, Kampala, Uganda",
   poBox: "P.O Box: 6089",
 };
@@ -187,7 +187,7 @@ export const API_DELIVERY = {
   },
   support: {
     email: "api@nlscug.com",
-    phone: "0326 338 014",
+    phone: "0394568130",
     docs: "https://docs.nlscug.com",
   },
 };

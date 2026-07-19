@@ -156,7 +156,8 @@ function PortalPage() {
         </div>
 
         <p className="text-center text-xs text-muted-foreground mt-6">
-          Powered by NLSC &mdash; Nile Logic & Secure Cloud Ltd
+          Powered by NLSC &mdash; Nile Logic & Secure Cloud Ltd<br />
+          Contact: <a href="tel:0394568130" className="hover:text-foreground">0394568130</a>
         </p>
       </div>
     </div>
