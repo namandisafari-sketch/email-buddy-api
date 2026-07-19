@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WhoWeAreRouteImport } from './routes/who-we-are'
+import { Route as VouchersRouteImport } from './routes/vouchers'
 import { Route as TrackOrderRouteImport } from './routes/track-order'
 import { Route as SubdomainsRouteImport } from './routes/subdomains'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
@@ -33,6 +34,11 @@ import { Route as IndexRouteImport } from './routes/index'
 const WhoWeAreRoute = WhoWeAreRouteImport.update({
   id: '/who-we-are',
   path: '/who-we-are',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VouchersRoute = VouchersRouteImport.update({
+  id: '/vouchers',
+  path: '/vouchers',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TrackOrderRoute = TrackOrderRouteImport.update({
@@ -151,6 +157,7 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/subdomains': typeof SubdomainsRoute
   '/track-order': typeof TrackOrderRoute
+  '/vouchers': typeof VouchersRoute
   '/who-we-are': typeof WhoWeAreRoute
 }
 export interface FileRoutesByTo {
@@ -173,6 +180,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/subdomains': typeof SubdomainsRoute
   '/track-order': typeof TrackOrderRoute
+  '/vouchers': typeof VouchersRoute
   '/who-we-are': typeof WhoWeAreRoute
 }
 export interface FileRoutesById {
@@ -196,6 +204,7 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/subdomains': typeof SubdomainsRoute
   '/track-order': typeof TrackOrderRoute
+  '/vouchers': typeof VouchersRoute
   '/who-we-are': typeof WhoWeAreRoute
 }
 export interface FileRouteTypes {
@@ -220,6 +229,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/subdomains'
     | '/track-order'
+    | '/vouchers'
     | '/who-we-are'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -242,6 +252,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/subdomains'
     | '/track-order'
+    | '/vouchers'
     | '/who-we-are'
   id:
     | '__root__'
@@ -264,6 +275,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/subdomains'
     | '/track-order'
+    | '/vouchers'
     | '/who-we-are'
   fileRoutesById: FileRoutesById
 }
@@ -287,6 +299,7 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SubdomainsRoute: typeof SubdomainsRoute
   TrackOrderRoute: typeof TrackOrderRoute
+  VouchersRoute: typeof VouchersRoute
   WhoWeAreRoute: typeof WhoWeAreRoute
 }
 
@@ -297,6 +310,13 @@ declare module '@tanstack/react-router' {
       path: '/who-we-are'
       fullPath: '/who-we-are'
       preLoaderRoute: typeof WhoWeAreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vouchers': {
+      id: '/vouchers'
+      path: '/vouchers'
+      fullPath: '/vouchers'
+      preLoaderRoute: typeof VouchersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/track-order': {
@@ -455,6 +475,7 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SubdomainsRoute: SubdomainsRoute,
   TrackOrderRoute: TrackOrderRoute,
+  VouchersRoute: VouchersRoute,
   WhoWeAreRoute: WhoWeAreRoute,
 }
 export const routeTree = rootRouteImport

@@ -270,6 +270,7 @@ export const NAV = [
   { to: "/subdomains", label: "Subdomain Security" },
   { to: "/nsis", label: "NSIS Installer" },
   { to: "/domains", label: "Domains" },
+  { to: "/vouchers", label: "Free Vouchers" },
   { to: "/cart", label: "Cart" },
   { to: "/billing", label: "Billing" },
   { to: "/license", label: "License" },
